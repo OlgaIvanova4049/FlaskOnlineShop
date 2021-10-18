@@ -6,8 +6,8 @@ from sqlalchemy.orm import relationship, validates
 class OrderItemModel(BaseIDModel):
     __tablename__ = "ord_order_item"
 
-    order_id = Column(Integer, ForeignKey('crt_cart.id'), onupdate='SET NULL')
-    product_id = Column(Integer, ForeignKey('prd_product.id', onupdate='SET NULL'))
+    order_id = Column(Integer, ForeignKey('ord_order.id'), ondelete='SET NULL')
+    product_id = Column(Integer, ForeignKey('prd_product.id', ondelete='SET NULL'))
     price = Column(Integer, nullable=False)
     quantity = Column(Integer)
     product = relationship('ProductModel')

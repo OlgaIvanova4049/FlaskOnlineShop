@@ -14,7 +14,7 @@ class CartItemModel(BaseIDModel):
 
     @validates('price')
     def validate_(self, key, price):
-        if price <= 0:
+        if price < 0:
             raise ValueError("set the correct value")
         return price
 

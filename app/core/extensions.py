@@ -1,7 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.engine import create_engine
 
-class Sqlachemy:
-    database_engine = create_engine(settings.sqlalchemy_database_uri, echo=True)
 
-db = Sqlachemy()
+SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:password@localhost:5433/postgres"
