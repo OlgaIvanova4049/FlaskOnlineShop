@@ -1,10 +1,14 @@
-from orm.models.base import BaseIDModel
-from sqlalchemy import Column, Integer, ForeignKey
-from sqlalchemy.orm import relationship, validates
+from app.orm.models.base import BaseIDModel
+from sqlalchemy import Column, Integer, ForeignKey, CheckConstraint
+from sqlalchemy.orm import relationship
 
 
 class CartItemModel(BaseIDModel):
     __tablename__ = "crt_cart_item"
+    __table_args__ = (
+        CheckConstraint('price >= 0'),
+        CheckConstraint('quantity >= 0')
+    )
 
     cart_id = Column(Integer, ForeignKey('crt_cart.id', ondelete='SET NULL'))
     product_id = Column(Integer, ForeignKey('prd_product.id', ondelete='SET NULL'))
@@ -12,16 +16,5 @@ class CartItemModel(BaseIDModel):
     quantity = Column(Integer)
     product = relationship('ProductModel')
 
-    @validates('price')
-    def validate_(self, key, price):
-        if price < 0:
-            raise ValueError("set the correct value")
-        return price
-
-    @validates('quantity')
-    def validate_(self, key, quantity):
-        if quantity < 0:
-            raise ValueError("set the correct value")
-        return quantity
 
 

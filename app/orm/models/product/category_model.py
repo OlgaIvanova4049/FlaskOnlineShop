@@ -1,4 +1,4 @@
-from orm.models.base import BaseIDModel
+from app.orm.models.base import BaseIDModel
 from sqlalchemy import Column, Integer, ForeignKey, String
 from sqlalchemy.orm import relationship
 
