@@ -28,8 +28,4 @@ class ProductModel(BaseIDModel):
     def total_discount(self):
         return sum(discount.amount for discount in self.product_discount)
 
-    @total_discount.expression
-    def total_discount(cls):
-        return select(func.sum(ProductDiscountModel.amount)).where(
-            ProductDiscountModel.product_id == cls.id).label(
-            'total_discount')
+

@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "ff05e058-74a5-4526-983d-4bafd3a0ec65",
+		"name": "FlaskOnlineShop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get single user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/users/15",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"users",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users list",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@test.by\",\n    \"password\": \"12345\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "{\"email\": \"email@tut.com\", \"password\": \"123\"}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"123@test.by\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/users/52",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"users",
+								"52"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Security",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"test@test.by\",\n    \"password\": \"12345\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/auth/login",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+alembic upgrade head
 gunicorn app.app:app \
     --worker-class gevent \
     --preload \

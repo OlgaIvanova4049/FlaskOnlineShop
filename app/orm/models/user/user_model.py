@@ -7,7 +7,7 @@ from app.orm.models.base import BaseIDModel
 class UserModel(BaseIDModel):
     __tablename__ = 'usr_user'
 
-    email = Column(String, nullable=False)
+    email = Column(String, nullable=False, unique=True)
     _password = Column(String, nullable=False)
     admin = Column(Boolean, default=False)
     order_list = relationship('OrderModel', back_populates='user', cascade="all, delete")
@@ -18,7 +18,6 @@ class UserModel(BaseIDModel):
             raise ValueError("failed email validation")
         return email
 
-    # TODO хэш пароля
 
     @hybrid_property
     def password(self):
@@ -27,4 +26,9 @@ class UserModel(BaseIDModel):
     @password.setter
     def password(self, password_text):
         self._password = hash(password_text)
+
+    def __repr__(self):
+        return(str(self.email))
+
+    #TODO: в базе установить уникальный email
 

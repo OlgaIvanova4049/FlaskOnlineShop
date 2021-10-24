@@ -10,7 +10,7 @@ class OrderItemModel(BaseIDModel):
         CheckConstraint('quantity >= 0')
     )
 
-    order_id = Column(Integer, ForeignKey('ord_order.id'), ondelete='SET NULL')
+    order_id = Column(Integer, ForeignKey('ord_order.id', ondelete='SET NULL'))
     product_id = Column(Integer, ForeignKey('prd_product.id', ondelete='SET NULL'))
     price = Column(Integer, nullable=False)
     quantity = Column(Integer)
