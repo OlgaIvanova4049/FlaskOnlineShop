@@ -20,17 +20,18 @@ class ProductRepository(BaseRepository):
             result = session.query(self.model)
             if parameters.filter:
                 if parameters.filter.name:
-                    result = result.filter(self.model.name == parameters.filter.name)
-                if parameters.filter.price_min:
-                    result = result.filter(self.model.price >= parameters.filter.price_min)
-                if parameters.filter.price_max:
-                    result = result.filter(self.model.price <= parameters.filter.price_max)
+                    result = result.filter(self.model.name.like(f'%{parameters.filter.name}%'))
+                if parameters.filter.price:
+                    if parameters.filter.price.min:
+                        result = result.filter(self.model.price >= parameters.filter.price.min)
+                    if parameters.filter.price.max:
+                        result = result.filter(self.model.price <= parameters.filter.price.max)
             if sort_params := parameters.sort:
                 result = result.order_by(*[FUNC_MAPPING.get(value)(field) for field, value in sort_params.dict(exclude_none=True).items()])
-        return result.all()
+            return result.limit(parameters.paginator.limit).offset(parameters.paginator.offset).all()
 
     def products_in_category(self, category_id):
         with session_scope() as session:
-            return session.query(self.model).filter_by(category_id=category_id).all()
+            return session.query(self.model).filter(self.model.category_id==category_id).all()
 
 

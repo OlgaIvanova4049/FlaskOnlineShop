@@ -1,12 +1,18 @@
 import json
 from typing import Optional
 
-from app.orm.schemas.base_schema import BaseFilter, BaseSort, QueryParam, OrderEnum
+from pydantic import BaseModel
+
+from app.orm.schemas.base_schema import BaseFilter, BaseSort, QueryParam, OrderEnum, LimitOffsetPaginator
+
+
+class PriceProductFilter(BaseFilter):
+    min: Optional[int]
+    max: Optional[int]
 
 
 class ProductFilter(BaseFilter):
-    price_min: Optional[int]
-    price_max: Optional[int]
+    price: Optional[PriceProductFilter]
     name: Optional[str]
 
 
@@ -16,7 +22,10 @@ class ProductSort(BaseSort):
     description: Optional[OrderEnum]
 
 
+
 class ProductQueryParam(QueryParam):
     filter: Optional[ProductFilter]
     sort: Optional[ProductSort]
+
+
 

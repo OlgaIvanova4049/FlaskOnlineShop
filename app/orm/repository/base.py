@@ -2,6 +2,7 @@ from contextlib import contextmanager
 from typing import Type
 
 from pydantic.main import BaseModel
+from sqlalchemy import func
 
 from app.core.extensions import db
 from app.orm.models.base import BaseIDModel
@@ -22,6 +23,10 @@ def session_scope():
 class BaseRepository:
     def __init__(self):
         self.model: Type[BaseIDModel] = BaseIDModel
+
+    def count(self):
+        with session_scope() as session:
+            return session.query(func.count(self.model.id)).scalar()
 
     def create(self, schema: BaseModel) -> BaseIDModel:
         with session_scope() as session:
