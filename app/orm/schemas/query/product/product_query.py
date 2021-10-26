@@ -1,7 +1,7 @@
 import json
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.orm.schemas.base_schema import BaseFilter, BaseSort, QueryParam, OrderEnum, LimitOffsetPaginator
 
@@ -23,9 +23,11 @@ class ProductSort(BaseSort):
 
 
 
+
 class ProductQueryParam(QueryParam):
     filter: Optional[ProductFilter]
     sort: Optional[ProductSort]
+    paginator: LimitOffsetPaginator=Field(default_factory=LimitOffsetPaginator)
 
 
 

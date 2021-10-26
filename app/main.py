@@ -17,5 +17,11 @@ def register_extensions(app):
 def register_views(app):
     from app.api.views.product_view import product_blueprint
     from app.api.views.user_view import user_blueprint
+    from app.api.views.category_view import category_blueprint
+    app.register_blueprint(category_blueprint)
     app.register_blueprint(product_blueprint)
     app.register_blueprint(user_blueprint)
+
+
+
+

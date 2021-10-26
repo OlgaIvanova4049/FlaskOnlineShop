@@ -30,5 +30,4 @@ class UserModel(BaseIDModel):
     def __repr__(self):
         return(str(self.email))
 
-    #TODO: в базе установить уникальный email
 

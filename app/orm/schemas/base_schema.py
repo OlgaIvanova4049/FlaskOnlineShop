@@ -32,7 +32,6 @@ class LimitOffsetPaginator(BaseModel):
 class QueryParam(BaseModel):
     filter: Optional[BaseFilter]
     sort: Optional[BaseSort]
-    paginator: LimitOffsetPaginator=Field(default_factory=LimitOffsetPaginator)
 
 
     @classmethod
@@ -40,7 +39,6 @@ class QueryParam(BaseModel):
         print(schema)
         return cls.parse_obj({key: json.loads(value) for key, value in schema.items()})
 
-#TODO: сделать отдельный query param без пагинатора
 
 
 
