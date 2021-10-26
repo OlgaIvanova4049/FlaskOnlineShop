@@ -21,5 +21,5 @@ RUN poetry config virtualenvs.create false \
   && poetry install
 
 COPY app app
-COPY .env entrypoint.sh ./
+COPY .env entrypoint.sh alembic.ini ./
 RUN chmod +x entrypoint.sh

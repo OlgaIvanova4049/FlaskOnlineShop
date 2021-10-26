@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class EnvironmentSchema(str, Enum):
-    dev='dev'
-    test='test'
-    prod='prod'
+    dev = 'dev'
+    test = 'test'
+    prod = 'prod'

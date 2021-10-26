@@ -18,7 +18,6 @@ class TokenModel(BaseIDModel):
     _expired_at = Column(DateTime)
     user = relationship('UserModel', backref='token')
 
-    # TODO метод вычисления даты, проверить док-ю
     # TODO лезу в юзера, достаю поле админ и в зависимости от него устанавливаю скоп
     @hybrid_property
     def expired_at(self):
@@ -30,7 +29,7 @@ class TokenModel(BaseIDModel):
 
     def set_scope(self):
         if self.user.admin:
-            self.scope = ('create', 'update', 'delete')
+            self.scope = ('request', 'update', 'delete')
         else:
             self.scope = ('read')
         return self.scope
