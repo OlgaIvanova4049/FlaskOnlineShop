@@ -1,10 +1,17 @@
+from typing import Optional, List
+
 from pydantic import BaseModel
 
+class NestedCategory(BaseModel):
+    name:str
+
+    class Config:
+        orm_mode = True
 
 class CategorySchema(BaseModel):
     id: int
     name: str
-    # nested_categories: list['CategorySchema']
+    nested_categories: Optional[List[NestedCategory]]
 
 
     class Config:
