@@ -8,10 +8,10 @@ class NestedCategory(BaseModel):
     class Config:
         orm_mode = True
 
-class CategorySchema(BaseModel):
+class CategoryResponseSchema(BaseModel):
     id: int
     name: str
-    nested_categories: Optional[List[NestedCategory]]
+    # nested_categories: Optional[List[NestedCategory]]
 
 
     class Config:

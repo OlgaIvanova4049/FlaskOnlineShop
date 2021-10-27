@@ -1,6 +1,6 @@
 from app.orm.models.product.category_model import CategoryModel
 from app.orm.repository.base import BaseRepository, session_scope
-from app.orm.schemas.response.product.category_response import CategorySchema
+from app.orm.schemas.response.product.category_response import CategoryResponseSchema
 
 
 class CategoryRepository(BaseRepository):
@@ -14,7 +14,7 @@ class CategoryRepository(BaseRepository):
             # print(type(nested_categories))
             categories = session.query(self.model).all()
             #TODO: Something wrong
-            res = [CategorySchema.from_orm(category).dict() for category in categories]
+            res = [CategoryResponseSchema.from_orm(category).dict() for category in categories]
             return res
 
 
