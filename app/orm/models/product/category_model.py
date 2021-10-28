@@ -1,3 +1,5 @@
+from sqlalchemy.ext.hybrid import hybrid_property
+
 from app.orm.models.base import BaseIDModel
 from sqlalchemy import Column, Integer, ForeignKey, String
 from sqlalchemy.orm import relationship

@@ -1,18 +1,13 @@
-from typing import Optional, List
+from typing import Optional
 
 from pydantic import BaseModel
 
-class NestedCategory(BaseModel):
-    name:str
-
-    class Config:
-        orm_mode = True
 
 class CategoryResponseSchema(BaseModel):
-    id: int
-    name: str
-    # nested_categories: Optional[List[NestedCategory]]
-
+    id: Optional[int]
+    name: Optional[str]
+    nested_categories: Optional[list]
+    all_parents: Optional[list]
 
     class Config:
         orm_mode = True

@@ -10,11 +10,16 @@ class CategoryRepository(BaseRepository):
 
     def find_all_categories(self):
         with session_scope() as session:
-            # nested_categories = session.query(self.model.nested_categories)
-            # print(type(nested_categories))
             categories = session.query(self.model).all()
             #TODO: Something wrong
             res = [CategoryResponseSchema.from_orm(category).dict() for category in categories]
+            for model in res:
+                model["all_parents"] = []
+                p = model['nested_categories']
+                while p:
+                     model["all_parents"].append(p[0].id)
+                     p = p[0].nested_categories
+                     model['nested_categories'] = []
             return res
 
 
