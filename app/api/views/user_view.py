@@ -3,7 +3,8 @@ import http
 from flask import Blueprint, jsonify, request
 
 from app.orm.models.user.user_model import UserModel
-from app.orm.repository import user_repository
+from app.orm.repository import user_repository, cart_repository
+from app.orm.schemas.request.cart.cart import CartSchema
 from app.orm.schemas.request.user.user import UserSchema as UserSchemaRequest
 from app.orm.schemas.response.user.user import UserSchema as UserSchemaResponse
 
@@ -22,6 +23,7 @@ def single_user(id: int):
 @user_blueprint.route('',methods=['POST'])
 def new_user():
     user = user_repository.create(UserSchemaRequest.parse_obj(request.json))
+    cart_repository.create(CartSchema.parse_obj({'user_id':user.id}))
     return UserSchemaResponse.from_orm(user).json(), http.HTTPStatus.CREATED
 
 @user_blueprint.route('/<int:id>',methods=['PUT'])

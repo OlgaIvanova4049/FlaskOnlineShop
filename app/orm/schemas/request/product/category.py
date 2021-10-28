@@ -1,7 +1,9 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
 class CategoryRequestSchema(BaseModel):
-    id: int
-    name: str
-    parent_category: int
+    id: Optional[int]
+    name: Optional[str]
+    parent_category: Optional[int]

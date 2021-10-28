@@ -30,8 +30,9 @@ class ProductRepository(BaseRepository):
                 result = result.order_by(*[FUNC_MAPPING.get(value)(field) for field, value in sort_params.dict(exclude_none=True).items()])
             return result.limit(parameters.paginator.limit).offset(parameters.paginator.offset).all()
 
-    def products_in_category(self, category_id):
+    def products_in_category(self, category_id, parameters: ProductQueryParam):
         with session_scope() as session:
-            return session.query(self.model).filter(self.model.category_id==category_id).all()
+            products = session.query(self.model).filter(self.model.category_id==category_id)
+            return products.limit(parameters.paginator.limit).offset(parameters.paginator.offset).all()
 
 
