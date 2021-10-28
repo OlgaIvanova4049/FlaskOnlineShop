@@ -24,7 +24,7 @@ def find_all_products(id: int):
 @category_blueprint.route('')
 def find_all():
     categories=category_repository.find_all_categories()
-    return jsonify(*categories), http.HTTPStatus.OK
+    return jsonify([category.dict(exclude={'nested_categories'}) for category in categories]), http.HTTPStatus.OK
 
 # @category_blueprint.route('')
 # def find_all():

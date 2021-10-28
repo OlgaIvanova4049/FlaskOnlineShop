@@ -13,3 +13,5 @@ class CategoryModel(BaseIDModel):
 
     product = relationship('ProductModel', back_populates='category')
     nested_categories = relationship('CategoryModel', remote_side='CategoryModel.id', uselist=True)
+
+    #TODO: many-to-one self reference
