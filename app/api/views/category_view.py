@@ -22,7 +22,7 @@ def find_all_products(id: int):
 @category_blueprint.route('')
 def find_all():
     categories=category_repository.find_all_categories()
-    return jsonify([category.dict(exclude={'nested_categories'}) for category in categories]), http.HTTPStatus.OK
+    return jsonify([category.dict(exclude={'parent_object'}) for category in categories]), http.HTTPStatus.OK
 
 @category_blueprint.route('',methods=['POST'])
 def new_user():
