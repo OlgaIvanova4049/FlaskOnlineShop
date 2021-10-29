@@ -19,19 +19,19 @@ class TokenModel(BaseIDModel):
     user = relationship('UserModel', backref='token')
 
     # TODO лезу в юзера, достаю поле админ и в зависимости от него устанавливаю скоп
-    @hybrid_property
-    def expired_at(self):
-        return self._expired_at
-
-    @expired_at.setter
-    def expired_at(self, token_life_time=token_life_time_hours):
-        self._expired_at = self.created_at + timedelta(hours=token_life_time)
-
-    def set_scope(self):
-        if self.user.admin:
-            self.scope = ('request', 'update', 'delete')
-        else:
-            self.scope = ('read')
-        return self.scope
+    # @hybrid_property
+    # def expired_at(self):
+    #     return self._expired_at
+    #
+    # @expired_at.setter
+    # def expired_at(self, token_life_time=token_life_time_hours):
+    #     self._expired_at = self.created_at + timedelta(hours=token_life_time)
+    #
+    # def set_scope(self):
+    #     if self.user.admin:
+    #         self.scope = ('request', 'update', 'delete')
+    #     else:
+    #         self.scope = ('read')
+    #     return self.scope
 
 

@@ -5,8 +5,8 @@ from flask import Blueprint, jsonify, request
 from app.orm.models.user.user_model import UserModel
 from app.orm.repository import user_repository, cart_repository
 from app.orm.schemas.request.cart.cart import CartSchema
-from app.orm.schemas.request.user.user import UserSchema as UserSchemaRequest
-from app.orm.schemas.response.user.user import UserSchema as UserSchemaResponse
+from app.orm.schemas.request.user.user import UserSchemaRequest
+from app.orm.schemas.response.user.user import UserSchemaResponse
 
 user_blueprint = Blueprint('user_blueprint',__name__, url_prefix="/users")
 

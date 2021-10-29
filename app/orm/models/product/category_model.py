@@ -12,6 +12,6 @@ class CategoryModel(BaseIDModel):
     parent_category = Column(Integer, ForeignKey('prd_category.id', ondelete='SET NULL'))
 
     product = relationship('ProductModel', back_populates='category')
-    nested_categories = relationship('CategoryModel', remote_side='CategoryModel.id', uselist=True)
+    nested_category = relationship('CategoryModel', remote_side='CategoryModel.id')
 
     #TODO: many-to-one self reference

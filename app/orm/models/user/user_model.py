@@ -11,6 +11,8 @@ class UserModel(BaseIDModel):
     _password = Column(String, nullable=False)
     admin = Column(Boolean, default=False)
     order_list = relationship('OrderModel', back_populates='user', cascade="all, delete")
+    cart = relationship('CartModel', lazy="joined", uselist=False)
+
 
     @validates('email')
     def validate_email(self, key, email):
