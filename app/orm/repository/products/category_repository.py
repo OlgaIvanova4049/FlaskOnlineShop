@@ -17,7 +17,7 @@ class CategoryRepository(BaseRepository):
                 all_parents = []
                 parent = model.parent_object
                 while parent:
-                    all_parents.append(parent[0].name)
-                    parent = parent[0].parent_object
+                    all_parents.append(parent.name)
+                    parent = parent.parent_object
                 model.all_parents = sorted(all_parents)
             return res

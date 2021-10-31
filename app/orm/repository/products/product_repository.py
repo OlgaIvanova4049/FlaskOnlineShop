@@ -35,4 +35,6 @@ class ProductRepository(BaseRepository):
             products = session.query(self.model).filter(self.model.category_id==category_id)
             return products.limit(parameters.paginator.limit).offset(parameters.paginator.offset).all()
 
+    #TODO: list of products in subcategories
+
 

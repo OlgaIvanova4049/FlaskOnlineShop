@@ -19,10 +19,15 @@ def find_all_products(id: int):
     paginator = query_param.paginator.copy(update={"total": product_repository.count()})
     return ProductResponseSchema(items=[ProductSchema.from_orm(product).dict() for product in products], paginator=paginator).dict(), http.HTTPStatus.OK
 
+# @category_blueprint.route('')
+# def find_all():
+#     categories=category_repository.find_all_categories()
+#     return jsonify([category.dict(exclude={'parent_object', 'children'}) for category in categories]), http.HTTPStatus.OK
+
 @category_blueprint.route('')
 def find_all():
-    categories=category_repository.find_all_categories()
-    return jsonify([category.dict(exclude={'parent_object'}) for category in categories]), http.HTTPStatus.OK
+    categories = category_repository.find_all()
+    return jsonify([CategoryResponseSchema.from_orm(category).dict() for category in categories]), http.HTTPStatus.OK
 
 @category_blueprint.route('',methods=['POST'])
 def new_user():

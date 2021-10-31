@@ -2,12 +2,14 @@ from flask import Flask
 
 from app.core.extensions import db
 from app.core.settings import settings
+from app.exceptions.handler import register_exceptions
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_mapping(settings.get_original_env())
     register_extensions(app)
+    register_exceptions(app)
     register_views(app)
     return app
 

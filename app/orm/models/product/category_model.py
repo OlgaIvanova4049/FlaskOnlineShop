@@ -2,7 +2,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 
 from app.orm.models.base import BaseIDModel
 from sqlalchemy import Column, Integer, ForeignKey, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 
 class CategoryModel(BaseIDModel):
@@ -12,6 +12,8 @@ class CategoryModel(BaseIDModel):
     parent_category = Column(Integer, ForeignKey('prd_category.id', ondelete='SET NULL'))
 
     product = relationship('ProductModel', back_populates='category')
-    parent_object = relationship('CategoryModel', remote_side='CategoryModel.id', uselist=True)
-
+    children = relationship("CategoryModel", lazy='joined', join_depth=5,
+                            backref=backref('parent_object', remote_side="CategoryModel.id"),
+                            uselist=True
+                            )
     #TODO: many-to-one self reference
