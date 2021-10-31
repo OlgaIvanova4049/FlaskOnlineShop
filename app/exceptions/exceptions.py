@@ -1,7 +1,7 @@
 from typing import Optional
+from werkzeug.exceptions import HTTPException
 
-
-class NotFoundException(Exception):
+class NotFoundException(HTTPException):
     entity_name: str = "Entity"
 
     def __init__(self, entity_name: Optional[str] = None):
@@ -9,4 +9,7 @@ class NotFoundException(Exception):
 
 
 class UserNotFoundException(NotFoundException):
+    code: int = 404
+    name: str = 'Not Found'
     entity_name: str = 'User'
+
