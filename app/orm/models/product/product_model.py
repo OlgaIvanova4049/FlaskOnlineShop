@@ -21,7 +21,7 @@ class ProductModel(BaseIDModel):
     category_id = Column(Integer, ForeignKey('prd_category.id', ondelete='SET NULL'))
     quantity = Column(Integer)
     price = Column(Integer, nullable=False)
-    category = relationship('CategoryModel', back_populates='product')
+    category = relationship('CategoryModel', back_populates='product', lazy="joined", uselist=False)
     product_discount = relationship('ProductDiscountModel', back_populates='product')
 
     @hybrid_property

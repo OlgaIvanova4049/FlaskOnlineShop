@@ -1,15 +1,12 @@
-import http
-
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 
 from app.exceptions.exceptions import UserNotFoundException
+from app.orm.repository import cart_repository
 from app.orm.repository import user_repository
 from app.orm.schemas.request.cart.cart import CartSchema
 from app.orm.schemas.request.user.user import UserSchemaRequest
-from app.orm.schemas.response.cart.cart import CartResponseSchema
 from app.orm.schemas.response.security.auth import Payload, TokenResponse
-from app.services.security.auth_service import encode_auth_token, set_payload
-from app.orm.repository import cart_repository
+from app.services.security.auth_service import encode_auth_token
 
 auth_blueprint = Blueprint('auth_blueprint', __name__, url_prefix="/login")
 

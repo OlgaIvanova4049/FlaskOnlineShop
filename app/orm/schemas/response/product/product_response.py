@@ -1,12 +1,14 @@
 from typing import List, Optional
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 
 
 class ProductSchema(BaseModel):
     id: int
     name: str
     description: str
+    price: int
+    quantity: int
 
     class Config:
         orm_mode = True

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class Paginator(BaseModel):
@@ -10,12 +10,13 @@ class Paginator(BaseModel):
     has_previous: Optional[bool] = False
     total: Optional[int] = 0
 
-    # @validator("has_previous", pre=True, always=True)
+    # @validator("has_previous", always=True)
     # def has_previous_result(cls, v, values, *kwargs):
     #     return values['offset'] !=0
-    #
+    # #
     # @validator("has_next", pre=True, always=True)
     # def has_next_result(cls, v, values, *kwargs):
     #     return values['limit'] + values['offset'] < values['total']
 
 paginator = Paginator()
+#TODO: has_previous, has_next

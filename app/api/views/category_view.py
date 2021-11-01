@@ -29,17 +29,22 @@ def find_all():
     categories = category_repository.find_all()
     return jsonify([CategoryResponseSchema.from_orm(category).dict() for category in categories]), http.HTTPStatus.OK
 
+@category_blueprint.route('/<int:id>/')
+def find_subcategories(id:int):
+    category = category_repository.find(id)
+    return jsonify(CategoryResponseSchema.from_orm(category).dict()), http.HTTPStatus.OK
+
 @category_blueprint.route('',methods=['POST'])
-def new_user():
+def new_category():
     category = category_repository.create(CategoryRequestSchema.parse_obj(request.json))
     return CategoryResponseSchema.from_orm(category).json(), http.HTTPStatus.CREATED
 
 @category_blueprint.route('/<int:id>',methods=['PUT'])
-def update_user(id: int):
+def update_category(id: int):
     category = category_repository.update(id, CategoryRequestSchema.parse_obj(request.json))
     return CategoryResponseSchema.from_orm(category).json(), http.HTTPStatus.ACCEPTED
 
 @category_blueprint.route('/<int:id>',methods=['DELETE'])
-def delete_user(id: int):
+def delete_category(id: int):
     category_repository.delete(id)
     return jsonify({"message":"Category was successfully deleted"}), http.HTTPStatus.NO_CONTENT

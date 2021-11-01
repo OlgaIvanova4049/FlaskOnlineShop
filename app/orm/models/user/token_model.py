@@ -26,10 +26,10 @@ class TokenModel(BaseIDModel):
     # @expired_at.setter
     # def expired_at(self, token_life_time=token_life_time_hours):
     #     self._expired_at = self.created_at + timedelta(hours=token_life_time)
-    #
+    # @scope.setter
     # def set_scope(self):
     #     if self.user.admin:
-    #         self.scope = ('request', 'update', 'delete')
+    #         self.scope = ('create', 'update', 'delete')
     #     else:
     #         self.scope = ('read')
     #     return self.scope

@@ -1,10 +1,12 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
-class ProductSchema(BaseModel):
-    id: int
-    name: str
-    description: str
-    category_id: int
-    quantity: int
-    price: int
+class ProductRequestSchema(BaseModel):
+    id: Optional[int]
+    name: Optional[str]
+    description: Optional[str]
+    category_id: Optional[int]
+    quantity: Optional[int]
+    price: Optional[int]
