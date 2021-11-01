@@ -1,1 +1,1 @@
-token_life_time_hours = 30
+token_life_time_hours = 24

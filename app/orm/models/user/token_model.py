@@ -15,17 +15,22 @@ class TokenModel(BaseIDModel):
     refresh_token = Column(String)
     user_id = Column(Integer, ForeignKey('usr_user.id', ondelete='SET NULL'))
     scope = Column(ARRAY(VARCHAR))
-    _expired_at = Column(DateTime)
-    user = relationship('UserModel', backref='token')
+    expired_at = Column(DateTime)
+    user = relationship('UserModel', lazy="joined", uselist=False)
 
     # TODO лезу в юзера, достаю поле админ и в зависимости от него устанавливаю скоп
     # @hybrid_property
     # def expired_at(self):
-    #     return self._expired_at
-    #
+    #     return self.expired_at
+
     # @expired_at.setter
     # def expired_at(self, token_life_time=token_life_time_hours):
-    #     self._expired_at = self.created_at + timedelta(hours=token_life_time)
+    #     self.expired_at = self.created_at + timedelta(hours=token_life_time)
+
+    # @hybrid_property
+    # def scope(self):
+    #     return self.scope
+
     # @scope.setter
     # def set_scope(self):
     #     if self.user.admin:

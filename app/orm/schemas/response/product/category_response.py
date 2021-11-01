@@ -1,7 +1,6 @@
 from typing import Optional, ForwardRef
 
 from pydantic import BaseModel
-
 CategoryResponseSchema = ForwardRef('CategoryResponseSchema')
 
 # class CategoryResponseSchema(BaseModel):

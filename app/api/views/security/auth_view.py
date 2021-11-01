@@ -1,9 +1,12 @@
+import datetime
+
 from flask import Blueprint, request
 
 from app.exceptions.exceptions import UserNotFoundException
-from app.orm.repository import cart_repository
+from app.orm.repository import cart_repository, token_repository
 from app.orm.repository import user_repository
 from app.orm.schemas.request.cart.cart import CartSchema
+from app.orm.schemas.request.user.token import TokenRequestSchema
 from app.orm.schemas.request.user.user import UserSchemaRequest
 from app.orm.schemas.response.security.auth import Payload, TokenResponse
 from app.services.security.auth_service import encode_auth_token
@@ -25,6 +28,7 @@ def login():
     if not cart:
         cart = cart_repository.create(CartSchema.parse_obj({'user_id':user.id}))
     token = encode_auth_token(Payload(uid=str(cart.uid)))
+    token_repository.create(TokenRequestSchema.parse_obj({'access_token': str(token), 'user_id': user.id}))
     return TokenResponse(access_token=token).json()
 
 

@@ -37,4 +37,4 @@ def update_product(id: int):
 @product_blueprint.route('/<int:id>',methods=['DELETE'])
 def delete_product(id: int):
     product_repository.delete(id)
-    return jsonify({"message":"Product was successfully deleted"}), http.HTTPStatus.NO_CONTENT
+    return {}, http.HTTPStatus.NO_CONTENT
