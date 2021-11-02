@@ -13,3 +13,8 @@ class CartItemRepository(BaseRepository):
             product = cart_item.product
             quantity = cart_item.quantity
             return product, quantity
+
+    def find_by_product(self, product_id):
+        with session_scope() as session:
+            cart_item = session.query(self.model).filter_by(product_id=product_id).first()
+            return cart_item

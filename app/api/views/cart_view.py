@@ -7,6 +7,7 @@ from app.core.settings import settings
 from app.orm.repository import product_repository, cart_repository, cart_item_repository
 from app.orm.schemas.request.cart.cart import CartSchema
 from app.orm.schemas.request.cart.cart_item import CartItemRequestSchema
+from app.orm.schemas.response.cart.cart import CartResponseSchema
 from app.orm.schemas.response.cart.cart_item import CartItemResponseSchema
 from app.orm.schemas.response.product.product_response import ProductSchema
 
@@ -40,3 +41,14 @@ def show_product(cart_id, cart_item_id):
     product_schema = ProductSchema.from_orm(product)
     product = product_schema.copy(update={"quantity": quantity})
     return product.json(), http.HTTPStatus.OK
+
+@cart_blueprint.route("", methods=['DELETE'], endpoint="delete_product")
+@cart_decorator
+def delete_product(cart_uid):
+    cart = cart_repository.find_by_uid(cart_uid)
+    cart_item = cart_item_repository.find_by_product(request.json["product_id"])
+    print(cart_item)
+    cart_item_repository.delete(cart_item.id)
+    total_price = cart_repository.total_price(uid=cart.uid)
+    cart_repository.update(cart.id, CartSchema.parse_obj({"total_price": total_price}))
+    return CartResponseSchema.from_orm(cart).json(), http.HTTPStatus.ACCEPTED
