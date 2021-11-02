@@ -1,5 +1,3 @@
-import datetime
-
 from flask import Blueprint, request
 
 from app.exceptions.exceptions import UserNotFoundException

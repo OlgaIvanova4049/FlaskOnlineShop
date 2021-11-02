@@ -1,3 +1,4 @@
+from app.orm.repository.carts.cart_item_repository import CartItemRepository
 from app.orm.repository.carts.cart_repository import CartRepository
 from app.orm.repository.orders.order_item_repository import OrderItemRepository
 from app.orm.repository.orders.order_repository import OrderRepository
@@ -12,3 +13,4 @@ user_repository = UserRepository()
 category_repository = CategoryRepository()
 cart_repository = CartRepository()
 token_repository = TokenRepository()
+cart_item_repository = CartItemRepository()

@@ -15,5 +15,5 @@ class CartModel(BaseIDModel):
     user_id = Column(Integer, ForeignKey('usr_user.id', ondelete='SET NULL'))
     total_price = Column(Integer, CheckConstraint('total_price>=0'), default=0)
     uid = Column(UUID(as_uuid=True), default=uuid.uuid4, index=True)
-    cart_item = relationship('CartItemModel', cascade="all, delete")
+    cart_item = relationship('CartItemModel', lazy="joined", cascade="all, delete")
 

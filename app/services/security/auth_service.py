@@ -1,9 +1,8 @@
-import uuid
 from typing import Optional
 
-from jose import jwt, JWTError
+from jose import jwt
+
 from app.core.settings import settings
-from app.orm.repository import token_repository
 from app.orm.schemas.response.security.auth import Payload
 
 
@@ -14,3 +13,5 @@ def set_payload(uid: Optional[str] = None) -> Payload:
 def encode_auth_token(payload: Payload):
     token = jwt.encode(claims=payload.dict(), key=settings.secret_key, algorithm=settings.algorithm)
     return token
+
+

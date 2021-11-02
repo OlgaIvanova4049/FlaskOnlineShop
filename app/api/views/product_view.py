@@ -1,13 +1,12 @@
 import http
-import json
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 
 from app.orm.models.product.product_model import ProductModel
 from app.orm.repository import product_repository
 from app.orm.schemas.query.product.product_query import ProductQueryParam
 from app.orm.schemas.request.product.product import ProductRequestSchema
-from app.orm.schemas.response.product.product_response import ProductSchema, ProductResponseSchema, Paginator
+from app.orm.schemas.response.product.product_response import ProductSchema, ProductResponseSchema
 
 product_blueprint = Blueprint('product_blueprint', __name__, url_prefix="/products")
 
