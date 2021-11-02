@@ -1,9 +1,7 @@
 from datetime import datetime
-from typing import Optional, Tuple
+from typing import Optional
 
-from pydantic import BaseModel, fields, validator
-from pydantic.validators import timedelta
-from app.core.constants import token_life_time_hours
+from pydantic import BaseModel, Field
 
 
 class TokenRequestSchema(BaseModel):
@@ -11,5 +9,5 @@ class TokenRequestSchema(BaseModel):
     access_token: str
     refresh_token: Optional[str]
     user_id: Optional[int]
-    scope:Optional[tuple]
-    expired_at: datetime = datetime.now() + timedelta(hours=token_life_time_hours)
+    scope: Optional[tuple]
+    expired_at: datetime = Field(alias='exp')

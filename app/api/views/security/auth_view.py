@@ -19,6 +19,7 @@ def get_token():
     token = encode_auth_token(Payload())
     return TokenResponse(access_token=token).json()
 
+
 @auth_blueprint.post('')
 def login():
     user = user_repository.find_by_email(UserSchemaRequest.parse_obj(request.json).email)
@@ -26,9 +27,10 @@ def login():
         raise UserNotFoundException
     cart = user.cart
     if not cart:
-        cart = cart_repository.create(CartSchema.parse_obj({'user_id':user.id}))
-    token = encode_auth_token(Payload(uid=str(cart.uid)))
-    token_repository.create(TokenRequestSchema.parse_obj({'access_token': str(token), 'user_id': user.id}))
+        cart = cart_repository.create(CartSchema.parse_obj({'user_id': user.id}))
+    payload = Payload(uid=str(cart.uid))
+    token = encode_auth_token(payload)
+    token_repository.create(TokenRequestSchema.parse_obj({'access_token': payload.dict()["jti"],
+                                                          'user_id': user.id,
+                                                          'exp': payload.dict()["exp"]}))
     return TokenResponse(access_token=token).json()
-
-

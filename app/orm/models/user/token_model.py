@@ -16,7 +16,6 @@ class TokenModel(BaseIDModel):
     user_id = Column(Integer, ForeignKey('usr_user.id', ondelete='SET NULL'))
     scope = Column(ARRAY(VARCHAR))
     expired_at = Column(DateTime)
-    user = relationship('UserModel', lazy="joined", uselist=False)
 
     # TODO лезу в юзера, достаю поле админ и в зависимости от него устанавливаю скоп
     # @hybrid_property
