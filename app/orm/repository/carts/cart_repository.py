@@ -15,3 +15,5 @@ class CartRepository(BaseRepository):
             cart = self.find_by_uid(uid)
             cart_items = cart.cart_item
             return sum(cart_item.price * cart_item.quantity for cart_item in cart_items)
+
+

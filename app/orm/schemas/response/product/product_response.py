@@ -4,11 +4,11 @@ from pydantic import BaseModel
 
 
 class ProductSchema(BaseModel):
-    id: int
-    name: str
-    description: str
-    price: int
-    quantity: int
+    id: Optional[int]
+    name: Optional[str]
+    description: Optional[str]
+    price: Optional[int]
+    quantity: Optional[int]
 
     class Config:
         orm_mode = True
