@@ -1,6 +1,6 @@
 import http
 
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from jose import jwt
 
 from app.core.settings import settings
@@ -9,7 +9,8 @@ from app.orm.schemas.request.cart.cart import CartSchema
 from app.orm.schemas.request.cart.cart_item import CartItemRequestSchema
 from app.orm.schemas.request.product.product import ProductAddSchema
 from app.orm.schemas.response.cart.cart import CartResponseSchema
-from app.orm.schemas.response.product.product_response import ProductSchema
+from app.orm.schemas.response.cart.cart_item import CartItemResponseSchema
+
 
 cart_blueprint = Blueprint('cart_blueprint', __name__, url_prefix="/cart")
 
@@ -49,12 +50,12 @@ def add_product_to_cart(cart_uid):
     return CartResponseSchema.from_orm(cart).json(), http.HTTPStatus.CREATED
 
 
-@cart_blueprint.route('/<int:cart_id>/<int:cart_item_id>', endpoint="show_product")
-def show_product(cart_id, cart_item_id):
-    product, quantity = cart_item_repository.show_product(cart_id, cart_item_id)
-    product_schema = ProductSchema.from_orm(product)
-    product = product_schema.copy(update={"quantity": quantity})
-    return product.json(), http.HTTPStatus.OK
+@cart_blueprint.route('/<int:id>', endpoint="show_products")
+def show_products(id: int):
+    cart = cart_repository.find(id)
+    cart_items = cart.cart_items
+    # return jsonify([ProductInCartSchema.from_orm(cart_item.product).dict() for cart_item in cart_items]), http.HTTPStatus.OK
+    return jsonify([CartItemResponseSchema.from_orm(cart_item).dict(exclude={"id", "product_id", "cart_id","price"}) for cart_item in cart_items]), http.HTTPStatus.OK
 
 
 @cart_blueprint.route("", methods=['DELETE'], endpoint="delete_product")

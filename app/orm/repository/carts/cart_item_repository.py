@@ -7,13 +7,6 @@ class CartItemRepository(BaseRepository):
         super().__init__()
         self.model = CartItemModel
 
-    def show_product(self, cart_id, cart_item_id):
-        with session_scope() as session:
-            cart_item = session.query(self.model).get(cart_item_id)
-            product = cart_item.product
-            quantity = cart_item.quantity
-            return product, quantity
-
     def find_by_product(self, product_id):
         with session_scope() as session:
             cart_item = session.query(self.model).filter_by(product_id=product_id).first()
