@@ -1,4 +1,5 @@
 import http
+from functools import wraps
 
 from flask import Blueprint, request, jsonify
 from jose import jwt
@@ -11,12 +12,12 @@ from app.orm.schemas.request.product.product import ProductCartSchema
 from app.orm.schemas.response.cart.cart import CartResponseSchema
 from app.orm.schemas.response.cart.cart_item import CartItemResponseSchema
 
-
 cart_blueprint = Blueprint('cart_blueprint', __name__, url_prefix="/cart")
 
 
 def cart_decorator(f):
-    # TODO: добавить документацию, functools.wraps, исключение
+    """Get cart_uid from JWT"""
+    @wraps(f)
     def wrapped(*args, **kwargs):
         auth_header = request.headers.get('Authorization')
         if auth_header:
@@ -25,6 +26,8 @@ def cart_decorator(f):
         return f(cart_uid, *args, **kwargs)
 
     return wrapped
+
+    # TODO: добавить документацию, functools.wraps, исключение
 
 
 @cart_blueprint.route("/add", methods=['POST'], endpoint="add_product")
@@ -54,7 +57,9 @@ def add_product_to_cart(cart_uid):
 def show_products(id: int):
     cart = cart_repository.find(id)
     cart_items = cart.cart_items
-    return jsonify([CartItemResponseSchema.from_orm(cart_item).dict(exclude={"id", "product_id", "cart_id","price"}) for cart_item in cart_items]), http.HTTPStatus.OK
+    return jsonify(
+        [CartItemResponseSchema.from_orm(cart_item).dict(exclude={"id", "product_id", "cart_id", "price"}) for cart_item
+         in cart_items]), http.HTTPStatus.OK
 
 
 @cart_blueprint.route("", methods=['DELETE'], endpoint="delete_product")
@@ -65,7 +70,7 @@ def delete_product(cart_uid):
     product_in_cart = cart_item_repository.product_in_cart(cart.id, product_schema.id)
     product_schema.quantity = product_in_cart.quantity
     cart_item_repository.delete(product_in_cart.id)
-    # TODO: добавить несколько условий в фильтр прежде чем удалить
+    # TODO: добавить несколько условий в фильтр прежде чем удалить+
     cart = cart_repository.find_by_uid(cart_uid)
     product_repository.update_quantity(product_schema.id, quantity=-product_schema.quantity)
     cart_repository.update_price(cart.count_total_price(), cart_uid)

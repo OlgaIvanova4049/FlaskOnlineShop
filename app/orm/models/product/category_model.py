@@ -16,4 +16,3 @@ class CategoryModel(BaseIDModel):
                             backref=backref('parent_object', remote_side="CategoryModel.id"),
                             uselist=True
                             )
-    #TODO: many-to-one self reference

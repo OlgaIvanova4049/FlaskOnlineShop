@@ -19,13 +19,5 @@ class CartItemRepository(BaseRepository):
             session.commit()
             return cart_item
 
-    # def product_quantity(self, id):
-    #     with session_scope() as session:
-    #         cart_item = session.query(self.model).filter_by(product_id=id)
-    #         print(cart_item)
-    #         new_quantity = cart_item.first().quantity + quantity
-    #         cart_item.update({"quantity": new_quantity})
-    #         session.commit()
-    #         return cart_item
 
 
