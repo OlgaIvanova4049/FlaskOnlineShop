@@ -11,7 +11,7 @@ class ProductRequestSchema(BaseModel):
     quantity: Optional[int]
     price: Optional[int]
 
-class ProductAddSchema(BaseModel):
+class ProductCartSchema(BaseModel):
     id: int = Field(alias='product_id')
-    quantity: int
+    quantity: Optional[int]
 #TODO: добавить валидацию

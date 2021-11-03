@@ -7,11 +7,6 @@ class CartItemRepository(BaseRepository):
         super().__init__()
         self.model = CartItemModel
 
-    def find_by_product(self, product_id):
-        with session_scope() as session:
-            cart_item = session.query(self.model).filter_by(product_id=product_id).first()
-            return cart_item
-
     def product_in_cart(self, cart_id, product_id):
         with session_scope() as session:
              return session.query(self.model).filter_by(product_id=product_id, cart_id=cart_id).first()
@@ -23,3 +18,14 @@ class CartItemRepository(BaseRepository):
             cart_item.update({"quantity": new_quantity})
             session.commit()
             return cart_item
+
+    # def product_quantity(self, id):
+    #     with session_scope() as session:
+    #         cart_item = session.query(self.model).filter_by(product_id=id)
+    #         print(cart_item)
+    #         new_quantity = cart_item.first().quantity + quantity
+    #         cart_item.update({"quantity": new_quantity})
+    #         session.commit()
+    #         return cart_item
+
+
