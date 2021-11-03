@@ -25,10 +25,10 @@ def login():
         raise UserNotFoundException
     cart = user.cart
     if not cart:
-        cart = cart_repository.create(CartSchema.parse_obj({'user_id': user.id}))
+        cart = cart_repository.create(CartSchema(user_id=user.id))
     payload = Payload(uid=str(cart.uid))
     token = encode_auth_token(payload)
-    token_repository.create(TokenRequestSchema.parse_obj({'access_token': payload.dict()["jti"],
-                                                          'user_id': user.id,
-                                                          'exp': payload.dict()["exp"]}))
+    token_repository.create(TokenRequestSchema(access_token=payload.jti,
+                                               user_id=user.id,
+                                               exp=payload.exp))
     return TokenResponse(access_token=token).json()

@@ -11,9 +11,11 @@ class CartRepository(BaseRepository):
         with session_scope() as session:
             return session.query(self.model).filter_by(uid=uid).first()
 
-    def total_price(self, uid):
-            cart = self.find_by_uid(uid)
-            cart_items = cart.cart_item
-            return sum(cart_item.price * cart_item.quantity for cart_item in cart_items)
+    def update_price(self, total_price, uid):
+        with session_scope() as session:
+            cart = session.query(self.model).filter_by(uid=uid).update({"total_price": total_price})
+            session.commit()
+            return cart
+
 
 

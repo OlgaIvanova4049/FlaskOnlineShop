@@ -35,6 +35,14 @@ class ProductRepository(BaseRepository):
             products = session.query(self.model).filter(self.model.category_id==category_id)
             return products.limit(parameters.paginator.limit).offset(parameters.paginator.offset).all()
 
+    def update_quantity(self, id, quantity):
+        with session_scope() as session:
+            product = session.query(self.model).filter_by(id=id)
+            new_quantity = product.first().quantity - quantity
+            product.update({"quantity": new_quantity})
+            session.commit()
+            return product
+
     #TODO: list of products in subcategories
 
 
