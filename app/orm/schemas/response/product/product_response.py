@@ -2,20 +2,22 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+from app.orm.schemas.response.product.category_response import CategoryResponseSchema
+
 
 class ProductInCart(BaseModel):
-    id: Optional[int]
     name: Optional[str]
     description: Optional[str]
-    price: Optional[int]
+    category: Optional[CategoryResponseSchema]
 
     class Config:
         orm_mode = True
 
 
 class ProductSchema(ProductInCart):
+    id: Optional[int]
     quantity: Optional[int]
-
+    price: Optional[int]
 
 class Paginator(BaseModel):
     limit: Optional[int] = 50

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
 
 class ProductRequestSchema(BaseModel):
@@ -13,10 +13,4 @@ class ProductRequestSchema(BaseModel):
 
 class ProductCartSchema(BaseModel):
     id: int = Field(alias='product_id')
-    quantity: Optional[int]
-
-    @validator('quantity')
-    def must_be_positive(cls, v):
-        if v < 1:
-            raise ValueError('must be positive')
-        return v
+    quantity: Optional[int] = Field(gt=0)

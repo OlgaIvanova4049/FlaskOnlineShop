@@ -1,7 +1,5 @@
 import uuid as uuid
 
-from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
-
 from app.orm.models.base import BaseIDModel
 from sqlalchemy import Column, Integer, ForeignKey, CheckConstraint
 from sqlalchemy.orm import relationship
@@ -19,8 +17,7 @@ class CartModel(BaseIDModel):
     uid = Column(UUID(as_uuid=True), default=uuid.uuid4, index=True)
     cart_items = relationship('CartItemModel', lazy="joined", cascade="all, delete")
 
-
-    def count_total_price(self):
-        cart_items = self.cart_items
-        return sum(cart_item.price * cart_item.quantity for cart_item in cart_items)
-
+    #
+    # def count_total_price(self):
+    #     cart_items = self.cart_items
+    #     return sum(cart_item.price * cart_item.quantity for cart_item in cart_items)

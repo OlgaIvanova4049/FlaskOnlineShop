@@ -41,20 +41,14 @@ def show_products(id: int):
     cart = cart_repository.find(id)
     cart_items = cart.cart_items
     return jsonify(
-        [CartItemResponseSchema.from_orm(cart_item).dict(exclude={"id", "product_id", "cart_id", "price"}) for cart_item
+        [CartItemResponseSchema.from_orm(cart_item).dict() for cart_item
          in cart_items]), http.HTTPStatus.OK
 
 
 @cart_blueprint.route("", methods=['DELETE'], endpoint="delete_product")
 @cart_decorator
 def delete_product(cart_uid):
-    cart = cart_repository.find_by_uid(cart_uid)
+    cart_schema = CartSchema(uid=cart_uid)
     product_schema = ProductCartSchema.parse_obj(request.json)
-    product_in_cart = cart_item_repository.product_in_cart(cart.id, product_schema.id)
-    product_schema.quantity = product_in_cart.quantity
-    cart_item_repository.delete(product_in_cart.id)
-    # TODO: добавить несколько условий в фильтр прежде чем удалить+
-    cart = cart_repository.find_by_uid(cart_uid)
-    product_repository.update_quantity(product_schema.id, quantity=-product_schema.quantity)
-    cart_repository.update_price(cart.count_total_price(), cart_uid)
+    cart = cart_repository.remove_product_from_cart(cart_schema, product_schema)
     return CartResponseSchema.from_orm(cart).json(), http.HTTPStatus.ACCEPTED
