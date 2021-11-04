@@ -16,5 +16,3 @@ class CartItemModel(BaseIDModel):
     price = Column(Integer, nullable=False)
     quantity = Column(Integer)
     product = relationship('ProductModel', lazy="joined")
-
-

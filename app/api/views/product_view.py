@@ -16,24 +16,29 @@ def find_all():
     query_param: ProductQueryParam = ProductQueryParam.as_obj(request.args.to_dict(flat=True))
     products: list[ProductModel] = product_repository.filtered_sorted_product_list(query_param)
     paginator = query_param.paginator.copy(update={"total": product_repository.count()})
-    return ProductResponseSchema(items=[ProductSchema.from_orm(product).dict() for product in products], paginator=paginator).dict(), http.HTTPStatus.OK
+    return ProductResponseSchema(items=[ProductSchema.from_orm(product).dict() for product in products],
+                                 paginator=paginator).dict(), http.HTTPStatus.OK
+
 
 @product_blueprint.route('/<int:id>')
 def single_product(id: int):
     product = product_repository.find(id)
     return ProductSchema.from_orm(product).json(), http.HTTPStatus.OK
 
-@product_blueprint.route('',methods=['POST'])
+
+@product_blueprint.route('', methods=['POST'])
 def new_product():
     product = product_repository.create(ProductRequestSchema.parse_obj(request.json))
     return ProductSchema.from_orm(product).json(), http.HTTPStatus.CREATED
 
-@product_blueprint.route('/<int:id>',methods=['PUT'])
+
+@product_blueprint.route('/<int:id>', methods=['PUT'])
 def update_product(id: int):
     product = product_repository.update(id, ProductRequestSchema.parse_obj(request.json))
     return ProductSchema.from_orm(product).json(), http.HTTPStatus.ACCEPTED
 
-@product_blueprint.route('/<int:id>',methods=['DELETE'])
+
+@product_blueprint.route('/<int:id>', methods=['DELETE'])
 def delete_product(id: int):
     product_repository.delete(id)
     return {}, http.HTTPStatus.NO_CONTENT

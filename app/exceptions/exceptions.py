@@ -1,6 +1,7 @@
 from typing import Optional
 from werkzeug.exceptions import HTTPException
 
+
 class NotFoundException(HTTPException):
     code: int = 404
     name: str = 'Not Found'
@@ -13,9 +14,10 @@ class NotFoundException(HTTPException):
 class UserNotFoundException(NotFoundException):
     entity_name: str = 'User'
 
+
 class ProductNotFoundException(NotFoundException):
     entity_name: str = 'Product'
 
+
 class CartItemNotFoundException(NotFoundException):
     entity_name = str = "Cart item"
-

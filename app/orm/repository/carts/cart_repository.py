@@ -16,7 +16,6 @@ class CartRepository(BaseRepository):
         with session_scope() as session:
             return session.query(self.model).filter_by(uid=uid).first()
 
-
     def add_product_to_cart(self, cart_schema: CartSchema, product_schema: ProductCartSchema):
         cart = self.find_by_uid(cart_schema.uid)
         if not cart:
@@ -81,4 +80,3 @@ class CartRepository(BaseRepository):
             cart = session.query(self.model).filter_by(uid=cart_uid).first()
             cart.total_price = cart.count_total_price()
             session.commit()
-

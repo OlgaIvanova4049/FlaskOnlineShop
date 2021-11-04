@@ -54,5 +54,3 @@ class BaseRepository:
             session.query(self.model).filter_by(id=id).update(schema.dict(exclude_none=True))
             session.commit()
             return self.find(id)
-
-

@@ -9,7 +9,7 @@ class CartItemRepository(BaseRepository):
 
     def product_in_cart(self, cart_id, product_id):
         with session_scope() as session:
-             return session.query(self.model).filter_by(product_id=product_id, cart_id=cart_id).first()
+            return session.query(self.model).filter_by(product_id=product_id, cart_id=cart_id).first()
 
     def update_quantity(self, id, quantity):
         with session_scope() as session:
@@ -18,6 +18,3 @@ class CartItemRepository(BaseRepository):
             cart_item.update({"quantity": new_quantity})
             session.commit()
             return cart_item
-
-
-

@@ -6,7 +6,7 @@ from app.orm.schemas.response.product.product_response import ProductInCart
 
 
 class CartItemResponseSchema(BaseModel):
-    product_id:Optional[int]
+    product_id: Optional[int]
     price: Optional[int]
     quantity: Optional[int]
     product: Optional[ProductInCart]

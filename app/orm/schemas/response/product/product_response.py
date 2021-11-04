@@ -19,6 +19,7 @@ class ProductSchema(ProductInCart):
     quantity: Optional[int]
     price: Optional[int]
 
+
 class Paginator(BaseModel):
     limit: Optional[int] = 50
     offset: Optional[int] = 0
