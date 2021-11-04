@@ -41,11 +41,9 @@ class CartRepository(BaseRepository):
             # session.add(cart)
             product.quantity -= product_schema.quantity
             session.commit()
-
         return cart
 
     def remove_product_from_cart(self, cart_schema: CartSchema, product_schema: ProductCartSchema):
-
         with session_scope() as session:
             cart = self.find_by_uid(cart_schema.uid)
             product = session.query(ProductModel).get(product_schema.id)
@@ -60,4 +58,27 @@ class CartRepository(BaseRepository):
             session.commit()
 
         return cart
+
+    def change_quantity(self, cart_schema: CartSchema, product_schema: ProductCartSchema):
+        with session_scope() as session:
+            cart = self.find_by_uid(cart_schema.uid)
+            product = session.query(ProductModel).get(product_schema.id)
+            if not product:
+                raise ProductNotFoundException
+            cart_item = session.query(CartItemModel).filter_by(product_id=product_schema.id, cart_id=cart.id).first()
+            if not cart_item:
+                raise CartItemNotFoundException
+            old_quantity = cart_item.quantity
+            cart_item.quantity = product_schema.quantity
+            quantity_delta = old_quantity - product_schema.quantity
+            product.quantity += quantity_delta
+            session.commit()
+
+        return cart
+
+    def set_total_price(self, cart_uid):
+        with session_scope() as session:
+            cart = session.query(self.model).filter_by(uid=cart_uid).first()
+            cart.total_price = cart.count_total_price()
+            session.commit()
 

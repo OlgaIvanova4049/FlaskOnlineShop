@@ -32,7 +32,7 @@ def add_product_to_cart(cart_uid):
     cart_schema = CartSchema(uid=cart_uid)
     product_schema = ProductCartSchema.parse_obj(request.json)
     cart = cart_repository.add_product_to_cart(cart_schema, product_schema)
-
+    cart_repository.set_total_price(cart.uid)
     return CartResponseSchema.from_orm(cart).json(), http.HTTPStatus.CREATED
 
 
@@ -45,10 +45,20 @@ def show_products(id: int):
          in cart_items]), http.HTTPStatus.OK
 
 
-@cart_blueprint.route("", methods=['DELETE'], endpoint="delete_product")
+@cart_blueprint.route("/delete", methods=['DELETE'], endpoint="delete_product")
 @cart_decorator
 def delete_product(cart_uid):
     cart_schema = CartSchema(uid=cart_uid)
     product_schema = ProductCartSchema.parse_obj(request.json)
     cart = cart_repository.remove_product_from_cart(cart_schema, product_schema)
+    cart_repository.set_total_price(cart.uid)
+    return CartResponseSchema.from_orm(cart).json(), http.HTTPStatus.ACCEPTED
+
+@cart_blueprint.route("/update",methods=['PUT'])
+@cart_decorator
+def update_product_quantity(cart_uid):
+    cart_schema = CartSchema(uid=cart_uid)
+    product_schema = ProductCartSchema.parse_obj(request.json)
+    cart = cart_repository.change_quantity(cart_schema, product_schema)
+    cart_repository.set_total_price(cart.uid)
     return CartResponseSchema.from_orm(cart).json(), http.HTTPStatus.ACCEPTED
