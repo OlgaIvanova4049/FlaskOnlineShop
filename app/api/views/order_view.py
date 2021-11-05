@@ -1,11 +1,12 @@
 import http
 
-from flask import Blueprint
+from flask import Blueprint, jsonify
 
 from app.api.views.cart_view import cart_decorator
 from app.orm.repository import cart_repository, order_repository, order_item_repository
 from app.orm.schemas.request.cart.cart import CartSchemaWithItems
 from app.orm.schemas.response.cart.cart import CartResponseSchema
+from app.orm.schemas.response.order.order import OrderResponseSchemaWithItems
 
 order_blueprint = Blueprint('order_blueprint', __name__, url_prefix="/order")
 
@@ -20,3 +21,9 @@ def create_order(cart_uid):
     [order_item_repository.create_order_items(cart_item, order.id) for cart_item in cart_items]
     cart_repository.delete(cart.id)
     return CartResponseSchema.from_orm(order).json(), http.HTTPStatus.CREATED
+
+
+@order_blueprint.route('')
+def find_all():
+    orders = order_repository.find_all()
+    return jsonify([OrderResponseSchemaWithItems.from_orm(order).dict() for order in orders]), http.HTTPStatus.OK

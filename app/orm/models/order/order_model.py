@@ -12,4 +12,4 @@ class OrderModel(BaseIDModel):
     user_id = Column(Integer, ForeignKey('usr_user.id', ondelete='SET NULL'))
     total_price = Column(Integer)
     user = relationship('UserModel', back_populates='order_list')
-
+    order_items = relationship('OrderItemModel', lazy="joined", cascade="all, delete")
