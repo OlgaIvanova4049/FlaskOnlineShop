@@ -37,14 +37,14 @@ def add_product_to_cart(cart_uid):
     return CartResponseSchema.from_orm(cart).json(), http.HTTPStatus.CREATED
 
 
-@cart_blueprint.route('/<int:id>', endpoint="show_products")
-def show_products(id: int):
-    cart = cart_repository.find(id)
+@cart_blueprint.route('', endpoint="show_products")
+@cart_decorator
+def show_products(cart_uid):
+    cart = cart_repository.find_by_uid(cart_uid)
     cart_items = cart.cart_items
     return jsonify(
         [CartItemResponseSchema.from_orm(cart_item).dict() for cart_item
          in cart_items]), http.HTTPStatus.OK
-#TODO: корзину достать из токена
 
 
 @cart_blueprint.route("/delete", methods=['DELETE'], endpoint="delete_product")
