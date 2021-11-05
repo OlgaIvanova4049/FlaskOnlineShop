@@ -27,3 +27,15 @@ def create_order(cart_uid):
 def find_all():
     orders = order_repository.find_all()
     return jsonify([OrderResponseSchemaWithItems.from_orm(order).dict() for order in orders]), http.HTTPStatus.OK
+
+
+@order_blueprint.route('/<int:id>')
+def show_order(id: int):
+    order = order_repository.find(id)
+    return jsonify(OrderResponseSchemaWithItems.from_orm(order).dict()), http.HTTPStatus.OK
+
+
+@order_blueprint.route('/<int:id>', methods=['DELETE'])
+def delete_order(id: int):
+    order_repository.delete(id)
+    return {}, http.HTTPStatus.NO_CONTENT
