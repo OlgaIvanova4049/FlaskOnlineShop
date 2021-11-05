@@ -17,8 +17,7 @@ def create_order(cart_uid):
     cart = cart_repository.find_by_uid(cart_uid)
     cart_schema = CartSchemaWithItems.from_orm(cart)
     order = order_repository.create_order(cart_schema)
-    cart_items = cart_schema.cart_items
-    [order_item_repository.create_order_items(cart_item, order.id) for cart_item in cart_items]
+    order_item_repository.create_order_items(cart_schema.cart_items, order.id)
     cart_repository.delete(cart.id)
     return CartResponseSchema.from_orm(order).json(), http.HTTPStatus.CREATED
 
@@ -33,6 +32,7 @@ def find_all():
 def show_order(id: int):
     order = order_repository.find(id)
     return jsonify(OrderResponseSchemaWithItems.from_orm(order).dict()), http.HTTPStatus.OK
+
 
 
 @order_blueprint.route('/<int:id>', methods=['DELETE'])

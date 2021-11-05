@@ -54,3 +54,8 @@ class BaseRepository:
             session.query(self.model).filter_by(id=id).update(schema.dict(exclude_none=True))
             session.commit()
             return self.find(id)
+
+    def bulk_save(self, models: list):
+        with session_scope() as session:
+            session.bulk_save_objects(models)
+            session.commit()
