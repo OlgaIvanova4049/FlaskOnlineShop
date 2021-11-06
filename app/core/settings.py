@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     celery_result_backend: str
     algorithm: str
     secret_key: str
+    email_admin: str
 
     def get_original_env(self):
         return {key.upper(): value for key, value in self.dict().items()}
