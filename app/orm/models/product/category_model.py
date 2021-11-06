@@ -16,3 +16,12 @@ class CategoryModel(BaseIDModel):
                             backref=backref('parent_object', remote_side="CategoryModel.id"),
                             uselist=True
                             )
+
+    def parent_categories(self):
+        all_parents = []
+        parent = self.parent_object
+        while parent:
+            all_parents.append(parent.id)
+            parent = parent.parent_object
+        all_parents = sorted(all_parents)
+        return all_parents

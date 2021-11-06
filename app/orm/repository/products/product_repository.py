@@ -27,22 +27,15 @@ class ProductRepository(BaseRepository):
                     if parameters.filter.price.max:
                         result = result.filter(self.model.price <= parameters.filter.price.max)
             if sort_params := parameters.sort:
-                result = result.order_by(*[FUNC_MAPPING.get(value)(field) for field, value in sort_params.dict(exclude_none=True).items()])
+                result = result.order_by(
+                    *[FUNC_MAPPING.get(value)(field) for field, value in sort_params.dict(exclude_none=True).items()])
             return result.limit(parameters.paginator.limit).offset(parameters.paginator.offset).all()
 
-    def products_in_category(self, category_id, parameters: ProductQueryParam):
+    def products_in_category(self, category_id):
         with session_scope() as session:
-            products = session.query(self.model).filter(self.model.category_id==category_id)
-            return products.limit(parameters.paginator.limit).offset(parameters.paginator.offset).all()
-
-    def update_quantity(self, id, quantity):
-        with session_scope() as session:
-            product = session.query(self.model).filter_by(id=id)
-            new_quantity = product.first().quantity - quantity
-            product.update({"quantity": new_quantity})
-            session.commit()
-            return product
-
-    #TODO: list of products in subcategories
+            all_products = session.query(self.model).all()
+            res_products = [product for product in all_products if
+                            product.category_id == category_id or category_id in product.category.parent_categories()]
+            return res_products
 
 

@@ -1,12 +1,8 @@
-from select import select
-
+from sqlalchemy import Column, Integer, ForeignKey, String, Text, CheckConstraint
 from sqlalchemy.ext.hybrid import hybrid_property
-
-from app.orm.models.base import BaseIDModel
-from sqlalchemy import Column, Integer, ForeignKey, String, Text, CheckConstraint, func
 from sqlalchemy.orm import relationship
 
-from app.orm.models.discount.discount import ProductDiscountModel
+from app.orm.models.base import BaseIDModel
 
 
 class ProductModel(BaseIDModel):
@@ -27,5 +23,3 @@ class ProductModel(BaseIDModel):
     @hybrid_property
     def total_discount(self):
         return sum(discount.amount for discount in self.product_discount)
-
-

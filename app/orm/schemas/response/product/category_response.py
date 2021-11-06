@@ -9,12 +9,12 @@ class CategoryResponseSchema(BaseModel):
 
     class Config:
         orm_mode = True
-
+CategoryParentResponseSchema = ForwardRef('CategoryParentResponseSchema')
 
 class CategoryParentResponseSchema(BaseModel):
     id: Optional[int]
     name: Optional[str]
-    parent_object: Optional[CategoryResponseSchema]
+    parent_object: Optional[CategoryParentResponseSchema]
     all_parents: Optional[list]
 
     class Config:
@@ -29,3 +29,4 @@ class CategoryChildrenResponseSchema(CategoryResponseSchema):
 
 
 CategoryChildrenResponseSchema.update_forward_refs()
+CategoryParentResponseSchema.update_forward_refs()

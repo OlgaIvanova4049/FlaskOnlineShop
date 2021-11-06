@@ -16,16 +16,16 @@ category_blueprint = Blueprint('category_blueprint', __name__, url_prefix="/cate
 @category_blueprint.route('/<int:id>/products')
 def find_all_products(id: int):
     query_param: ProductQueryParam = ProductQueryParam.as_obj(request.args.to_dict(flat=True))
-    products: list[ProductModel] = product_repository.products_in_category(id, query_param)
+    products: list[ProductModel] = product_repository.products_in_category(id)
     paginator = query_param.paginator.copy(update={"total": product_repository.count()})
     return ProductResponseSchema(items=[ProductSchema.from_orm(product).dict() for product in products],
                                  paginator=paginator).dict(), http.HTTPStatus.OK
 
 
-# @category_blueprint.route('')
-# def find_all():
-#     categories=category_repository.find_all_categories()
-#     return jsonify([category.dict(exclude={'parent_object', 'children'}) for category in categories]), http.HTTPStatus.OK
+@category_blueprint.route('/parent')
+def find_all_parents():
+    categories=category_repository.parent_categories()
+    return jsonify([category.dict(exclude={'parent_object', 'children'}) for category in categories]), http.HTTPStatus.OK
 
 @category_blueprint.route('')
 def find_all():
