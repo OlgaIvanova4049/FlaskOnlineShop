@@ -25,6 +25,7 @@ class Payload(BaseModel):
     iat: datetime = Field(default_factory=datetime.now)
     exp: datetime = Field(default_factory=expired_generator)
     jti: str = Field(default_factory=jti_generator)
+    role_id: Optional[int]
 
 
 class TokenResponse(BaseModel):

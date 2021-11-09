@@ -14,18 +14,17 @@ class RoleModel(BaseIDModel):
     __tablename__ = 'usr_role'
 
     name = Column(String, unique=True, nullable=False)
-    scope = relationship(
+    scopes = relationship(
         "ScopeModel",
         secondary=usr_role_scope,
-        back_populates="role")
+        back_populates="roles", lazy='joined')
 
 class ScopeModel(BaseIDModel):
     __tablename__ = 'usr_scope'
 
     name = Column(String, unique=True, nullable=False)
-    role = relationship(
+    roles = relationship(
         "RoleModel",
         secondary=usr_role_scope,
-        back_populates="scope")
-
+        back_populates="scopes", lazy='joined')
 
