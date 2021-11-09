@@ -15,7 +15,7 @@ class CartRepository(BaseRepository):
     @staticmethod
     def find_product(session, product_id):
         product = session.query(ProductModel).get(product_id)
-        if not product:
+        if not product or product.quantity == 0:
             raise ProductNotFoundException
         return product
 
@@ -44,12 +44,10 @@ class CartRepository(BaseRepository):
                 cart_item = CartItemModel(
                     cart_id=cart.id,
                     product_id=product.id,
-                    price=product.price,
+                    price=product.price - (product.total_discount * product.price),
                     quantity=product_schema.quantity
                 )
                 session.add(cart_item)
-            # cart.total_price += cart_item.price * cart_item.quantity
-            # session.add(cart)
             product.quantity -= product_schema.quantity
             session.commit()
         return cart
