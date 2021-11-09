@@ -4,11 +4,12 @@ from celery import group
 from flask import Blueprint, jsonify
 
 from app.api.views.cart_view import cart_decorator
+from app.core.settings import settings
 from app.orm.repository import cart_repository, order_repository, order_item_repository
 from app.orm.schemas.request.cart.cart import CartSchemaWithItems
 from app.orm.schemas.response.cart.cart import CartResponseSchema
 from app.orm.schemas.response.order.order import OrderResponseSchemaWithItems
-from app.worker.tasks.example import send_request_admin, send_request_user
+from app.worker.tasks.email import send_admin_email, send_user_email
 
 order_blueprint = Blueprint('order_blueprint', __name__, url_prefix="/order")
 
@@ -21,7 +22,7 @@ def create_order(cart_uid):
     order = order_repository.create_order(cart_schema)
     order_item_repository.create_order_items(cart_schema.cart_items, order.id)
     cart_repository.delete(cart.id)
-    group(send_request_admin(order.id), send_request_user(order.id, email="email"))
+    group([send_admin_email.s(order.id, settings.admin_email), send_user_email.s(order.id, "olga.ivanova4049@gmail.com")])()
     return CartResponseSchema.from_orm(order).json(), http.HTTPStatus.CREATED
 
 

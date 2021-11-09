@@ -8,7 +8,8 @@ celery = Celery(
     __name__,
     broker=settings.celery_broker_url,
     backend=settings.celery_result_backend,
-    include=['app.worker.tasks.example']
+    include=['app.worker.tasks.example',
+             'app.worker.tasks.email']
 )
 celery.conf.update(
     result_expires=7200,

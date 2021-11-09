@@ -10,7 +10,12 @@ class Settings(BaseSettings):
     celery_result_backend: str
     algorithm: str
     secret_key: str
-    email_admin: str
+    mail_port: int
+    smtp_server: str
+    mail_password: str
+    sender_email: str
+    admin_email: str
+
 
     def get_original_env(self):
         return {key.upper(): value for key, value in self.dict().items()}
