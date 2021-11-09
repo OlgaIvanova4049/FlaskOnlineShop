@@ -12,7 +12,7 @@ class UserModel(BaseIDModel):
     admin = Column(Boolean, default=False)
     order_list = relationship('OrderModel', back_populates='user', cascade="all, delete")
     cart = relationship('CartModel', lazy="joined", uselist=False)
-    token = relationship('TokenModel', lazy="joined")
+    token = relationship('TokenModel', lazy="joined", backref="user")
 
 
     @validates('email')
