@@ -5,7 +5,8 @@ from flask import Blueprint, request, jsonify
 from jose import jwt
 
 from app.core.settings import settings
-from app.orm.repository import cart_repository
+from app.exceptions.exceptions import AccessDeniedException
+from app.orm.repository import cart_repository, role_repository
 from app.orm.schemas.request.cart.cart import CartUIDSchema
 from app.orm.schemas.request.product.product import ProductCartSchema
 from app.orm.schemas.response.cart.cart import CartResponseSchema
@@ -26,10 +27,26 @@ def cart_decorator(f):
 
     return wrapped
 
+def scope_decorator(f):
+    """Get role id from JWT and define scope"""
+
+    @functools.wraps(f)
+    def wrapped(*args, **kwargs):
+        auth_header = request.headers.get('Authorization')
+        auth_token = auth_header.removeprefix("Bearer ") if auth_header else ""
+        role_id = jwt.decode(auth_token, key=settings.secret_key)["role_id"]
+        scope = role_repository.define_scope(role_id)
+        return f(scope, *args, **kwargs)
+
+    return wrapped
+
 
 @cart_blueprint.route("/add", methods=['POST'], endpoint="add_product")
 @cart_decorator
-def add_product_to_cart(cart_uid):
+@scope_decorator
+def add_product_to_cart(scope, cart_uid):
+    if "add product to cart" not in scope:
+        raise AccessDeniedException
     cart_schema = CartUIDSchema(uid=cart_uid)
     product_schema = ProductCartSchema.parse_obj(request.json)
     cart = cart_repository.add_product_to_cart(cart_schema, product_schema)

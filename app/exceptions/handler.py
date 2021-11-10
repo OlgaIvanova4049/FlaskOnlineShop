@@ -1,10 +1,10 @@
 import json
 
-from app.exceptions.exceptions import NotFoundException
+from werkzeug.exceptions import HTTPException
 
 
 def register_exceptions(app):
-    @app.errorhandler(NotFoundException)
+    @app.errorhandler(HTTPException)
     def handle_exception(e):
         response = e.get_response()
         response.data = json.dumps({

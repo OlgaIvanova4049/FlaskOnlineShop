@@ -2,6 +2,7 @@ from sqlalchemy import Column, String, Boolean
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship, validates
 from app.orm.models.base import BaseIDModel
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class UserModel(BaseIDModel):
@@ -28,7 +29,10 @@ class UserModel(BaseIDModel):
 
     @password.setter
     def password(self, password_text):
-        self._password = hash(password_text)
+        self._password = generate_password_hash(password_text)
+
+    def verify_password(self, password_text):
+        return check_password_hash(self.password, password_text)
 
     def __repr__(self):
         return(str(self.email))

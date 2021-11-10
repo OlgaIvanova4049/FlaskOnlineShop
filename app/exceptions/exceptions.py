@@ -21,3 +21,8 @@ class ProductNotFoundException(NotFoundException):
 
 class CartItemNotFoundException(NotFoundException):
     entity_name = str = "Cart item"
+
+class AccessDeniedException(HTTPException):
+    code: int = 403
+    name: str = "Forbidden"
+    description: str = "Access Denied"
