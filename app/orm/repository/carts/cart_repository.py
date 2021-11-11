@@ -1,4 +1,4 @@
-from app.exceptions.exceptions import ProductNotFoundException, CartItemNotFoundException
+from app.exceptions.exceptions import ProductNotFoundException, CartItemNotFoundException, QuantityNotEnoughException
 from app.orm.models.cart.cart_item_model import CartItemModel
 from app.orm.models.cart.cart_model import CartModel
 from app.orm.models.product.product_model import ProductModel
@@ -37,6 +37,8 @@ class CartRepository(BaseRepository):
 
         with session_scope() as session:
             product = self.find_product(session, product_schema.id)
+            if product.quantity < product_schema.quantity:
+                raise QuantityNotEnoughException
             cart_item = session.query(CartItemModel).filter_by(product_id=product_schema.id, cart_id=cart.id).first()
             if cart_item:
                 cart_item.quantity += product_schema.quantity
@@ -71,6 +73,8 @@ class CartRepository(BaseRepository):
             old_quantity = cart_item.quantity
             cart_item.quantity = product_schema.quantity
             quantity_delta = old_quantity - product_schema.quantity
+            if quantity_delta < 0 and abs(quantity_delta) > product.quantity:
+                raise QuantityNotEnoughException
             product.quantity += quantity_delta
             session.commit()
 

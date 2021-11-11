@@ -29,3 +29,7 @@ class AccessDeniedException(HTTPException):
     code: int = 403
     name: str = "Forbidden"
     description: str = "Access Denied"
+
+class QuantityNotEnoughException(HTTPException):
+    code: int = 400
+    description: str = "Product quantity is not enough"

@@ -3,7 +3,7 @@ import http
 from flask import Blueprint, request
 
 from app.api.views.cart_view import scope_decorator
-from app.exceptions.exceptions import AccessDeniedException
+from app.exceptions.exceptions import AccessDeniedException, ProductNotFoundException
 from app.orm.models.product.product_model import ProductModel
 from app.orm.repository import product_repository
 from app.orm.schemas.query.product.product_query import ProductQueryParam
@@ -25,6 +25,8 @@ def find_all():
 @product_blueprint.route('/<int:id>')
 def single_product(id: int):
     product = product_repository.find(id)
+    if not product:
+        raise ProductNotFoundException
     return ProductSchema.from_orm(product).json(), http.HTTPStatus.OK
 
 
@@ -43,6 +45,8 @@ def update_product(scope, id: int):
     if "update product" not in scope:
         raise AccessDeniedException
     product = product_repository.update(id, ProductRequestSchema.parse_obj(request.json))
+    if not product:
+        raise ProductNotFoundException
     return ProductSchema.from_orm(product).json(), http.HTTPStatus.ACCEPTED
 
 

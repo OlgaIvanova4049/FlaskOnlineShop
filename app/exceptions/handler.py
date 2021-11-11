@@ -1,9 +1,12 @@
+import http
 import json
 
+from pydantic import ValidationError
 from werkzeug.exceptions import HTTPException
 
 
 def register_exceptions(app):
+
     @app.errorhandler(HTTPException)
     def handle_exception(e):
         response = e.get_response()
@@ -15,4 +18,10 @@ def register_exceptions(app):
         response.content_type = "application/json"
         return response
 
-    app.register_error_handler(400, handle_exception)
+    @app.errorhandler(ValidationError)
+    def handle_validation_exception(e):
+        data = {
+            "code": 400,
+            "name": "Validation error",
+            "description": str(e)}
+        return data, http.HTTPStatus.BAD_REQUEST
