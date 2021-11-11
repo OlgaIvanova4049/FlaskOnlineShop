@@ -2,6 +2,8 @@ import http
 
 from flask import Blueprint, request
 
+from app.api.views.cart_view import scope_decorator
+from app.exceptions.exceptions import AccessDeniedException
 from app.orm.models.product.product_model import ProductModel
 from app.orm.repository import product_repository
 from app.orm.schemas.query.product.product_query import ProductQueryParam
@@ -27,18 +29,27 @@ def single_product(id: int):
 
 
 @product_blueprint.route('', methods=['POST'])
-def new_product():
+@scope_decorator
+def new_product(scope):
+    if "create product" not in scope:
+        raise AccessDeniedException
     product = product_repository.create(ProductRequestSchema.parse_obj(request.json))
     return ProductSchema.from_orm(product).json(), http.HTTPStatus.CREATED
 
 
 @product_blueprint.route('/<int:id>', methods=['PUT'])
-def update_product(id: int):
+@scope_decorator
+def update_product(scope, id: int):
+    if "update product" not in scope:
+        raise AccessDeniedException
     product = product_repository.update(id, ProductRequestSchema.parse_obj(request.json))
     return ProductSchema.from_orm(product).json(), http.HTTPStatus.ACCEPTED
 
 
 @product_blueprint.route('/<int:id>', methods=['DELETE'])
-def delete_product(id: int):
+@scope_decorator
+def delete_product(scope, id: int):
+    if "delete product" not in scope:
+        raise AccessDeniedException
     product_repository.delete(id)
     return {}, http.HTTPStatus.NO_CONTENT

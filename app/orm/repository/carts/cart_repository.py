@@ -15,7 +15,7 @@ class CartRepository(BaseRepository):
     @staticmethod
     def find_product(session, product_id):
         product = session.query(ProductModel).get(product_id)
-        if not product or product.quantity == 0:
+        if not product:
             raise ProductNotFoundException
         return product
 

@@ -5,7 +5,6 @@ from flask import Blueprint, request, jsonify
 from jose import jwt
 
 from app.core.settings import settings
-from app.exceptions.exceptions import AccessDeniedException
 from app.orm.repository import cart_repository, role_repository
 from app.orm.schemas.request.cart.cart import CartUIDSchema
 from app.orm.schemas.request.product.product import ProductCartSchema
@@ -43,10 +42,7 @@ def scope_decorator(f):
 
 @cart_blueprint.route("/add", methods=['POST'], endpoint="add_product")
 @cart_decorator
-@scope_decorator
-def add_product_to_cart(scope, cart_uid):
-    if "add product to cart" not in scope:
-        raise AccessDeniedException
+def add_product_to_cart(cart_uid):
     cart_schema = CartUIDSchema(uid=cart_uid)
     product_schema = ProductCartSchema.parse_obj(request.json)
     cart = cart_repository.add_product_to_cart(cart_schema, product_schema)

@@ -20,7 +20,10 @@ class ProductNotFoundException(NotFoundException):
 
 
 class CartItemNotFoundException(NotFoundException):
-    entity_name = str = "Cart item"
+    entity_name: str = "Cart item"
+
+class OrderNotFoundException(NotFoundException):
+    entity_name: str = "Order"
 
 class AccessDeniedException(HTTPException):
     code: int = 403

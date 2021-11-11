@@ -2,6 +2,8 @@ import http
 
 from flask import Blueprint, jsonify, request
 
+from app.api.views.cart_view import scope_decorator
+from app.exceptions.exceptions import AccessDeniedException
 from app.orm.models.product.product_model import ProductModel
 from app.orm.repository import category_repository
 from app.orm.repository import product_repository
@@ -22,11 +24,6 @@ def find_all_products(id: int):
                                  paginator=paginator).dict(), http.HTTPStatus.OK
 
 
-@category_blueprint.route('/parent')
-def find_all_parents():
-    categories=category_repository.parent_categories()
-    return jsonify([category.dict(exclude={'parent_object', 'children'}) for category in categories]), http.HTTPStatus.OK
-
 @category_blueprint.route('')
 def find_all():
     categories = category_repository.find_all()
@@ -34,25 +31,29 @@ def find_all():
         [CategoryChildrenResponseSchema.from_orm(category).dict() for category in categories]), http.HTTPStatus.OK
 
 
-@category_blueprint.route('/<int:id>/')
-def find_subcategories(id: int):
-    category = category_repository.find(id)
-    return jsonify(CategoryChildrenResponseSchema.from_orm(category).dict()), http.HTTPStatus.OK
-
 
 @category_blueprint.route('', methods=['POST'])
-def new_category():
+@scope_decorator
+def new_category(scope):
+    if "create category" not in scope:
+        raise AccessDeniedException
     category = category_repository.create(CategoryRequestSchema.parse_obj(request.json))
     return CategoryResponseSchema.from_orm(category).json(), http.HTTPStatus.CREATED
 
 
 @category_blueprint.route('/<int:id>', methods=['PUT'])
-def update_category(id: int):
+@scope_decorator
+def update_category(scope, id: int):
+    if "update category" not in scope:
+        raise AccessDeniedException
     category = category_repository.update(id, CategoryRequestSchema.parse_obj(request.json))
     return CategoryChildrenResponseSchema.from_orm(category).json(), http.HTTPStatus.ACCEPTED
 
 
 @category_blueprint.route('/<int:id>', methods=['DELETE'])
-def delete_category(id: int):
+@scope_decorator
+def delete_category(scope, id: int):
+    if "delete category" not in scope:
+        raise AccessDeniedException
     category_repository.delete(id)
     return jsonify({"message": "Category was successfully deleted"}), http.HTTPStatus.NO_CONTENT
