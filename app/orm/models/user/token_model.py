@@ -1,11 +1,7 @@
-from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy import Column, String, DateTime, Integer, ForeignKey, VARCHAR
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from app.orm.models.base import BaseIDModel
-from sqlalchemy import Column, String, DateTime, Integer, ForeignKey, VARCHAR
-from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import ARRAY
-from datetime import timedelta
-from app.core.constants import token_life_time_hours
 
 
 class TokenModel(BaseIDModel):
@@ -15,23 +11,9 @@ class TokenModel(BaseIDModel):
     refresh_token = Column(String)
     user_id = Column(Integer, ForeignKey('usr_user.id', ondelete='SET NULL'))
     scope = Column(ARRAY(VARCHAR))
-    _expired_at = Column(DateTime)
-    user = relationship('UserModel', backref='token')
+    expired_at = Column(DateTime)
 
-    # TODO лезу в юзера, достаю поле админ и в зависимости от него устанавливаю скоп
-    @hybrid_property
-    def expired_at(self):
-        return self._expired_at
 
-    @expired_at.setter
-    def expired_at(self, token_life_time=token_life_time_hours):
-        self._expired_at = self.created_at + timedelta(hours=token_life_time)
 
-    def set_scope(self):
-        if self.user.admin:
-            self.scope = ('request', 'update', 'delete')
-        else:
-            self.scope = ('read')
-        return self.scope
 
 

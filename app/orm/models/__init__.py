@@ -7,3 +7,6 @@ from app.orm.models.product.category_model import CategoryModel
 from app.orm.models.product.product_model import ProductModel
 from app.orm.models.user.user_model import UserModel
 from app.orm.models.user.token_model import TokenModel
+from app.orm.models.user.scope_model import ScopeModel
+from app.orm.models.user.scope_model import RoleModel
+from app.orm.models.user.scope_model import usr_role_scope

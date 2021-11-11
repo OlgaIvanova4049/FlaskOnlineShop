@@ -1,3 +1,4 @@
+from app.core.settings import settings
 from app.worker.main import celery
 
 @celery.task(name='send_request', queue='hello1')
@@ -10,3 +11,4 @@ def send_request(x):
 def show_result(args):
     res=sum(args) * 5
     return res
+
