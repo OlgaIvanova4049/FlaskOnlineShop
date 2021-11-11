@@ -1,0 +1,3 @@
+#!/bin/bash
+watchmedo auto-restart --directory=./app --pattern=*.py --recursive -- celery --app=app.worker.main.celery worker -E -Q email.send --concurrency=1 --loglevel=INFO
+#watchmedo auto-restart --directory=./app --pattern=*.py --recursive -- celery multi start 10 -Q:1 aggregation,job.info,video -Q:2-6 file,video,classification.frame,classification.text,classification.meta -Q:7,8 audio,audio.periodic -Q:9,10 stream --app=app.worker.main.celery --range-prefix=worker -B --concurrency=3 --loglevel=INFO --logfile=/var/logs/celery/celery_main.log

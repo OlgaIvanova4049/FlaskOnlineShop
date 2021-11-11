@@ -1,0 +1,746 @@
+{
+	"info": {
+		"_postman_id": "ff05e058-74a5-4526-983d-4bafd3a0ec65",
+		"name": "FlaskOnlineShop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get single user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/users/15",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"users",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users list",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@test.by\",\n    \"password\": \"12345\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "{\"email\": \"email@tut.com\", \"password\": \"123\"}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"123@test.by\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/users/52",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"users",
+								"52"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/users/56",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"users",
+								"56"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Security",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"test@test.by\",\n    \"password\": \"12345\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/auth/login",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Anon login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"test@test.by\",\n    \"password\": \"12345\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/login/anon",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"login",
+										"anon"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get category list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/categories",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test1\",\n    \"parent_category\": 1\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/categories",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test1\",\n    \"parent_category\": 1\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/categories/2",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"categories",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/categories/16",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"categories",
+								"16"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Get product list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/products?paginator={\"limit\":5,\"offset\":0}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "paginator",
+									"value": "{\"limit\":5,\"offset\":0}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product list with filter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/products?filter={\"price\": {\"min\": 10, \"max\": 20000}}&paginator={\"limit\":5,\"offset\":5}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "{\"price\": {\"min\": 10, \"max\": 20000}}"
+								},
+								{
+									"key": "paginator",
+									"value": "{\"limit\":5,\"offset\":5}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get sorted product list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/products?filter={\"price\": {\"min\": 10, \"max\": 20000}, \"name\": \"5\"}&sort={\"id\": \"ASC\", \"name\": \"DESC\"}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "{\"price\": {\"min\": 10, \"max\": 20000}, \"name\": \"5\"}"
+								},
+								{
+									"key": "sort",
+									"value": "{\"id\": \"ASC\", \"name\": \"DESC\"}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get productlist in caregory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/categories/3/products",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"categories",
+								"3",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/products/15",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"products",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"car\",\n    \"description\": \"good car\",\n    \"category_id\": 5,\n    \"quantity\": 10,\n    \"price\": 10000\n\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/products",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\":10\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/products/51",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"products",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/products/50",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"products",
+								"50"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Add product to cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI0OGFkZTZiMy05Zjk1LTQxZGMtODMwMy04YTk2OTE2YjBkYTUiLCJpYXQiOjE2MzU4NDYxNzMsImV4cCI6MTYzNTkzMjU3MywianRpIjoiVzFQWlhSV2Jjd1ZyZmxzV2hSVjJwSUJzayJ9.kxGVOSUhJoTQ1K0nPSbSyFa5Xn4ns5M2zvxUpBiFUbI\",\n    \"product_id\": 3,\n    \"quantity\": 1\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/cart",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product from cart",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI0OGFkZTZiMy05Zjk1LTQxZGMtODMwMy04YTk2OTE2YjBkYTUiLCJpYXQiOjE2MzU4NTkwNjEsImV4cCI6MTYzNTk0NTQ2MSwianRpIjoiWUFNOWtBa2g5QlUyUXlHZmRWTEJuNGFFZyJ9.85ftm2Gw49dp-H83_5cUN80uStO1tSsArYVFYlrqQyY\",\n    \"product_id\": 10\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/cart",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show products in cart",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI0OGFkZTZiMy05Zjk1LTQxZGMtODMwMy04YTk2OTE2YjBkYTUiLCJpYXQiOjE2MzU4NDYxNzMsImV4cCI6MTYzNTkzMjU3MywianRpIjoiVzFQWlhSV2Jjd1ZyZmxzV2hSVjJwSUJzayJ9.kxGVOSUhJoTQ1K0nPSbSyFa5Xn4ns5M2zvxUpBiFUbI\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/cart/7",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"cart",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product quantity in cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_id\": 20,\n    \"quantity\": 1\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/cart/update",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"cart",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Create order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n}"
+						},
+						"url": {
+							"raw": "{{domain}}/order",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show all orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/order",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show single order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/order/15",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"order",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/order/15",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"order",
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
