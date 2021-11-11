@@ -7,7 +7,7 @@ from app.orm.repository import category_repository
 from app.orm.repository import product_repository
 from app.orm.schemas.query.product.product_query import ProductQueryParam
 from app.orm.schemas.request.product.category import CategoryRequestSchema
-from app.orm.schemas.response.product.category_response import CategoryChildrenResponseSchema
+from app.orm.schemas.response.product.category_response import CategoryChildrenResponseSchema, CategoryResponseSchema
 from app.orm.schemas.response.product.product_response import ProductSchema, ProductResponseSchema
 
 category_blueprint = Blueprint('category_blueprint', __name__, url_prefix="/categories")
@@ -43,7 +43,7 @@ def find_subcategories(id: int):
 @category_blueprint.route('', methods=['POST'])
 def new_category():
     category = category_repository.create(CategoryRequestSchema.parse_obj(request.json))
-    return CategoryChildrenResponseSchema.from_orm(category).json(), http.HTTPStatus.CREATED
+    return CategoryResponseSchema.from_orm(category).json(), http.HTTPStatus.CREATED
 
 
 @category_blueprint.route('/<int:id>', methods=['PUT'])
