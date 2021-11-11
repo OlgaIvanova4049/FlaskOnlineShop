@@ -3,7 +3,7 @@ import http
 from flask import Blueprint, jsonify, request
 
 from app.api.views.cart_view import scope_decorator
-from app.exceptions.exceptions import AccessDeniedException
+from app.exceptions.exceptions import AccessDeniedException, CategoryExistsException, CategoryNotFoundException
 from app.orm.models.product.product_model import ProductModel
 from app.orm.repository import category_repository
 from app.orm.repository import product_repository
@@ -19,9 +19,8 @@ category_blueprint = Blueprint('category_blueprint', __name__, url_prefix="/cate
 def find_all_products(id: int):
     query_param: ProductQueryParam = ProductQueryParam.as_obj(request.args.to_dict(flat=True))
     products: list[ProductModel] = product_repository.products_in_category(id)
-    paginator = query_param.paginator.copy(update={"total": product_repository.count()})
     return ProductResponseSchema(items=[ProductSchema.from_orm(product).dict() for product in products],
-                                 paginator=paginator).dict(), http.HTTPStatus.OK
+                                 paginator=query_param.paginator).dict(), http.HTTPStatus.OK
 
 
 @category_blueprint.route('')
@@ -37,6 +36,9 @@ def find_all():
 def new_category(scope):
     if "create category" not in scope:
         raise AccessDeniedException
+    category = category_repository.find_by_name(request.json['name'])
+    if category:
+        raise CategoryExistsException
     category = category_repository.create(CategoryRequestSchema.parse_obj(request.json))
     return CategoryResponseSchema.from_orm(category).json(), http.HTTPStatus.CREATED
 
@@ -46,6 +48,9 @@ def new_category(scope):
 def update_category(scope, id: int):
     if "update category" not in scope:
         raise AccessDeniedException
+    category = category_repository.find(id)
+    if not category:
+        raise CategoryNotFoundException
     category = category_repository.update(id, CategoryRequestSchema.parse_obj(request.json))
     return CategoryChildrenResponseSchema.from_orm(category).json(), http.HTTPStatus.ACCEPTED
 
@@ -55,5 +60,8 @@ def update_category(scope, id: int):
 def delete_category(scope, id: int):
     if "delete category" not in scope:
         raise AccessDeniedException
+    category = category_repository.find(id)
+    if not category:
+        raise CategoryNotFoundException
     category_repository.delete(id)
     return jsonify({"message": "Category was successfully deleted"}), http.HTTPStatus.NO_CONTENT

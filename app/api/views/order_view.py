@@ -54,5 +54,8 @@ def show_order(scope, id: int):
 def delete_order(scope, id: int):
     if "delete order" not in scope:
         raise AccessDeniedException
+    order = order_repository.find(id)
+    if not order:
+        raise OrderNotFoundException
     order_repository.delete(id)
     return {}, http.HTTPStatus.NO_CONTENT

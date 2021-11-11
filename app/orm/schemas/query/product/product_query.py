@@ -2,8 +2,8 @@ from typing import Optional
 
 from pydantic import Field
 
-from app.orm.schemas.base_schema import BaseFilter, BaseSort, QueryParam, OrderEnum, LimitOffsetPaginator
-
+from app.orm.schemas.base_schema import BaseFilter, BaseSort, QueryParam, OrderEnum
+from app.orm.schemas.response.product.product_response import Paginator
 
 
 class PriceProductFilter(BaseFilter):
@@ -25,4 +25,4 @@ class ProductSort(BaseSort):
 class ProductQueryParam(QueryParam):
     filter: Optional[ProductFilter]
     sort: Optional[ProductSort]
-    paginator: LimitOffsetPaginator = Field(default_factory=LimitOffsetPaginator)
+    paginator: Paginator = Field(default_factory=Paginator)

@@ -1,3 +1,5 @@
+from app.exceptions.exceptions import CategoryNotFoundException
+from app.orm.models.product.category_model import CategoryModel
 from app.orm.models.product.product_model import ProductModel
 from app.orm.repository.base import BaseRepository, session_scope
 from app.orm.schemas.base_schema import OrderEnum
@@ -33,6 +35,9 @@ class ProductRepository(BaseRepository):
 
     def products_in_category(self, category_id):
         with session_scope() as session:
+            category = session.query(CategoryModel).get(category_id)
+            if not category:
+                raise CategoryNotFoundException
             all_products = session.query(self.model).all()
             res_products = [product for product in all_products if
                             product.category_id == category_id or category_id in product.category.parent_categories()]

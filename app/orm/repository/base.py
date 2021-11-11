@@ -59,3 +59,7 @@ class BaseRepository:
         with session_scope() as session:
             session.bulk_save_objects(models)
             session.commit()
+
+    def find_by_name(self, name:str):
+        with session_scope() as session:
+            return session.query(self.model).filter_by(name=name).first()
