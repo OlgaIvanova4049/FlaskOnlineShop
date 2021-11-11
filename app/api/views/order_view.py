@@ -5,7 +5,7 @@ from flask import Blueprint, jsonify
 
 from app.api.views.cart_view import cart_decorator
 from app.core.settings import settings
-from app.orm.repository import cart_repository, order_repository, order_item_repository
+from app.orm.repository import cart_repository, order_repository, order_item_repository, user_repository
 from app.orm.schemas.request.cart.cart import CartSchemaWithItems
 from app.orm.schemas.response.cart.cart import CartResponseSchema
 from app.orm.schemas.response.order.order import OrderResponseSchemaWithItems
@@ -22,7 +22,8 @@ def create_order(cart_uid):
     order = order_repository.create_order(cart_schema)
     order_item_repository.create_order_items(cart_schema.cart_items, order.id)
     cart_repository.delete(cart.id)
-    group([send_admin_email.s(order.id, settings.admin_email), send_user_email.s(order.id, "olga.ivanova4049@gmail.com")])()
+    user_email = user_repository.find(order.user_id).email
+    group([send_admin_email.s(order.id, settings.admin_email), send_user_email.s(order.id, user_email)])()
     return CartResponseSchema.from_orm(order).json(), http.HTTPStatus.CREATED
 
 

@@ -64,7 +64,7 @@ def show_products(cart_uid):
          in cart_items]), http.HTTPStatus.OK
 
 
-@cart_blueprint.route("/delete", methods=['DELETE'], endpoint="delete_product")
+@cart_blueprint.route("", methods=['DELETE'], endpoint="delete_product")
 @cart_decorator
 def delete_product(cart_uid):
     cart_schema = CartUIDSchema(uid=cart_uid)
