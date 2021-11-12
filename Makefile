@@ -24,3 +24,8 @@ flake8:
 black:
 	python -m black -l 79 .
 
+isort:
+	python -m isort -e -v --atomic .
+
+
+

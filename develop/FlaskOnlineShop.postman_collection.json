@@ -11,16 +11,26 @@
 				{
 					"name": "Get single user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domain}}/users/15",
+							"raw": "{{domain}}/users/100",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"users",
-								"15"
+								"100"
 							]
 						}
 					},
@@ -30,7 +40,14 @@
 					"name": "Get users list",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -49,6 +66,16 @@
 				{
 					"name": "Create user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -83,6 +110,16 @@
 				{
 					"name": "Update user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -111,16 +148,26 @@
 				{
 					"name": "Delete user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{domain}}/users/56",
+							"raw": "{{domain}}/users/2",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"users",
-								"56"
+								"2"
 							]
 						}
 					},
@@ -142,32 +189,52 @@
 									"script": {
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
-											"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+											"postman.setEnvironmentVariable(\"token\", jsonData.access_token);"
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
 										"value": "application/json",
 										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"test@test.by\",\n    \"password\": \"12345\"\n}"
+									"raw": "{\n    \"email\": \"olga.ivanova4049@gmail.com\",\n    \"password\": \"12345\"\n}"
 								},
 								"url": {
-									"raw": "{{domain}}/auth/login",
+									"raw": "{{domain}}/login",
 									"host": [
 										"{{domain}}"
 									],
 									"path": [
-										"auth",
 										"login"
 									]
 								}
@@ -182,13 +249,23 @@
 									"script": {
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
-											"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+											"postman.setEnvironmentVariable(\"token\", jsonData.access_token);"
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -224,6 +301,16 @@
 				{
 					"name": "Get category list",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -241,6 +328,16 @@
 				{
 					"name": "Create category",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -268,6 +365,16 @@
 				{
 					"name": "Update category",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -278,7 +385,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"test1\",\n    \"parent_category\": 1\n}"
+							"raw": "{\n    \"name\": \"test3\",\n    \"parent_category\": 1\n}"
 						},
 						"url": {
 							"raw": "{{domain}}/categories/2",
@@ -296,16 +403,30 @@
 				{
 					"name": "Delete category",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{domain}}/categories/16",
+							"raw": "{{domain}}/categories/26",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"categories",
-								"16"
+								"26"
 							]
 						}
 					},
@@ -345,7 +466,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domain}}/products?filter={\"price\": {\"min\": 10, \"max\": 20000}}&paginator={\"limit\":5,\"offset\":5}",
+							"raw": "{{domain}}/products?filter={\"price\": {\"min\": 10000, \"max\": 20000}}&paginator={\"limit\":5,\"offset\":5}",
 							"host": [
 								"{{domain}}"
 							],
@@ -355,7 +476,7 @@
 							"query": [
 								{
 									"key": "filter",
-									"value": "{\"price\": {\"min\": 10, \"max\": 20000}}"
+									"value": "{\"price\": {\"min\": 10000, \"max\": 20000}}"
 								},
 								{
 									"key": "paginator",
@@ -399,13 +520,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domain}}/categories/3/products",
+							"raw": "{{domain}}/categories/100/products",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"categories",
-								"3",
+								"100",
 								"products"
 							]
 						}
@@ -418,13 +539,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domain}}/products/15",
+							"raw": "{{domain}}/products/100",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"products",
-								"15"
+								"100"
 							]
 						}
 					},
@@ -433,6 +554,16 @@
 				{
 					"name": "Create product",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -460,6 +591,16 @@
 				{
 					"name": "Update product",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -473,13 +614,13 @@
 							"raw": "{\n    \"price\":10\n}"
 						},
 						"url": {
-							"raw": "{{domain}}/products/51",
+							"raw": "{{domain}}/products/55",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"products",
-								"51"
+								"55"
 							]
 						}
 					},
@@ -488,16 +629,26 @@
 				{
 					"name": "Delete product",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{domain}}/products/50",
+							"raw": "{{domain}}/products/100",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"products",
-								"50"
+								"100"
 							]
 						}
 					},
@@ -511,6 +662,16 @@
 				{
 					"name": "Add product to cart",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -521,15 +682,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI0OGFkZTZiMy05Zjk1LTQxZGMtODMwMy04YTk2OTE2YjBkYTUiLCJpYXQiOjE2MzU4NDYxNzMsImV4cCI6MTYzNTkzMjU3MywianRpIjoiVzFQWlhSV2Jjd1ZyZmxzV2hSVjJwSUJzayJ9.kxGVOSUhJoTQ1K0nPSbSyFa5Xn4ns5M2zvxUpBiFUbI\",\n    \"product_id\": 3,\n    \"quantity\": 1\n}"
+							"raw": "{\n    \"product_id\": 10,\n    \"quantity\": 1\n}"
 						},
 						"url": {
-							"raw": "{{domain}}/cart",
+							"raw": "{{domain}}/cart/add",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
-								"cart"
+								"cart",
+								"add"
 							]
 						}
 					},
@@ -538,6 +700,16 @@
 				{
 					"name": "Delete product from cart",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -548,7 +720,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI0OGFkZTZiMy05Zjk1LTQxZGMtODMwMy04YTk2OTE2YjBkYTUiLCJpYXQiOjE2MzU4NTkwNjEsImV4cCI6MTYzNTk0NTQ2MSwianRpIjoiWUFNOWtBa2g5QlUyUXlHZmRWTEJuNGFFZyJ9.85ftm2Gw49dp-H83_5cUN80uStO1tSsArYVFYlrqQyY\",\n    \"product_id\": 10\n}"
+							"raw": "{\n    \"product_id\": 10\n}"
 						},
 						"url": {
 							"raw": "{{domain}}/cart",
@@ -591,13 +763,12 @@
 							"raw": "{\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI0OGFkZTZiMy05Zjk1LTQxZGMtODMwMy04YTk2OTE2YjBkYTUiLCJpYXQiOjE2MzU4NDYxNzMsImV4cCI6MTYzNTkzMjU3MywianRpIjoiVzFQWlhSV2Jjd1ZyZmxzV2hSVjJwSUJzayJ9.kxGVOSUhJoTQ1K0nPSbSyFa5Xn4ns5M2zvxUpBiFUbI\"\n}"
 						},
 						"url": {
-							"raw": "{{domain}}/cart/7",
+							"raw": "{{domain}}/cart",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
-								"cart",
-								"7"
+								"cart"
 							]
 						}
 					},
@@ -626,7 +797,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"product_id\": 20,\n    \"quantity\": 1\n}"
+							"raw": "{\n    \"product_id\": 10,\n    \"quantity\": 5\n}"
 						},
 						"url": {
 							"raw": "{{domain}}/cart/update",
@@ -686,6 +857,16 @@
 				{
 					"name": "Show all orders",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -703,16 +884,26 @@
 				{
 					"name": "Show single order",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domain}}/order/15",
+							"raw": "{{domain}}/order/101",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"order",
-								"15"
+								"101"
 							]
 						}
 					},
@@ -721,6 +912,16 @@
 				{
 					"name": "Delete order",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -728,13 +929,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{domain}}/order/15",
+							"raw": "{{domain}}/order/90",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
 								"order",
-								"15"
+								"90"
 							]
 						}
 					},

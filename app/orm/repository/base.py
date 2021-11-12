@@ -10,7 +10,9 @@ from app.orm.models.base import BaseIDModel
 
 @contextmanager
 def session_scope():
-    session = db.create_scoped_session(options={"autoflush": False, "expire_on_commit": False})
+    session = db.create_scoped_session(
+        options={"autoflush": False, "expire_on_commit": False}
+    )
     try:
         yield session
     except:
@@ -51,7 +53,9 @@ class BaseRepository:
 
     def update(self, id: int, schema: BaseModel) -> BaseIDModel:
         with session_scope() as session:
-            session.query(self.model).filter_by(id=id).update(schema.dict(exclude_none=True))
+            session.query(self.model).filter_by(id=id).update(
+                schema.dict(exclude_none=True)
+            )
             session.commit()
             return self.find(id)
 
@@ -60,6 +64,6 @@ class BaseRepository:
             session.bulk_save_objects(models)
             session.commit()
 
-    def find_by_name(self, name:str):
+    def find_by_name(self, name: str):
         with session_scope() as session:
             return session.query(self.model).filter_by(name=name).first()

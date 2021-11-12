@@ -11,6 +11,7 @@ class ProductRequestSchema(BaseModel):
     quantity: Optional[int]
     price: Optional[int]
 
+
 class ProductCartSchema(BaseModel):
-    id: int = Field(alias='product_id')
+    id: int = Field(alias="product_id")
     quantity: Optional[int] = Field(gt=0)

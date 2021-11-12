@@ -2,7 +2,12 @@ from typing import Optional
 
 from pydantic import Field
 
-from app.orm.schemas.base_schema import BaseFilter, BaseSort, QueryParam, OrderEnum
+from app.orm.schemas.base_schema import (
+    BaseFilter,
+    BaseSort,
+    OrderEnum,
+    QueryParam,
+)
 from app.orm.schemas.response.product.product_response import Paginator
 
 

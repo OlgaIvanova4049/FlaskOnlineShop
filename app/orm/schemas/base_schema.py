@@ -2,12 +2,11 @@ import enum
 import json
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class BaseFilter(BaseModel):
     id: Optional[int]
-
 
 
 class OrderEnum(str, enum.Enum):
@@ -22,23 +21,18 @@ class BaseSort(BaseModel):
         extra = "forbid"
 
 
-
 class LimitOffsetPaginator(BaseModel):
-    limit: Optional[int]=50
-    offset: Optional[int]=0
-
+    limit: Optional[int] = 50
+    offset: Optional[int] = 0
 
 
 class QueryParam(BaseModel):
     filter: Optional[BaseFilter]
     sort: Optional[BaseSort]
 
-
     @classmethod
     def as_obj(cls, schema):
         print(schema)
-        return cls.parse_obj({key: json.loads(value) for key, value in schema.items()})
-
-
-
-
+        return cls.parse_obj(
+            {key: json.loads(value) for key, value in schema.items()}
+        )

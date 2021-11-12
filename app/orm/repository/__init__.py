@@ -8,7 +8,6 @@ from app.orm.repository.users.role_scope_repository import RoleRepository
 from app.orm.repository.users.token_repository import TokenRepository
 from app.orm.repository.users.user_repository import UserRepository
 
-
 product_repository = ProductRepository()
 user_repository = UserRepository()
 category_repository = CategoryRepository()

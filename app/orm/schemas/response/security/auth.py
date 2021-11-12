@@ -1,10 +1,10 @@
 import random
 import string
 import uuid
+from datetime import datetime, timedelta
 from typing import Optional
 
 from pydantic import BaseModel, Field
-from datetime import datetime, timedelta
 
 from app.core.constants import token_life_time_hours
 
@@ -14,7 +14,13 @@ def uuid_generator():
 
 
 def jti_generator():
-    return ''.join([random.choice(string.ascii_letters + string.digits) for _ in range(25)])
+    return "".join(
+        [
+            random.choice(string.ascii_letters + string.digits)
+            for _ in range(25)
+        ]
+    )
+
 
 def expired_generator():
     return datetime.now() + timedelta(hours=token_life_time_hours)
@@ -30,4 +36,4 @@ class Payload(BaseModel):
 
 class TokenResponse(BaseModel):
     access_token: str
-    type: str = 'Bearer'
+    type: str = "Bearer"

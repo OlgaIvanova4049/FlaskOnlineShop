@@ -16,7 +16,6 @@ class Settings(BaseSettings):
     sender_email: str
     admin_email: str
 
-
     def get_original_env(self):
         return {key.upper(): value for key, value in self.dict().items()}
 
