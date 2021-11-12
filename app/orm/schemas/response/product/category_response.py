@@ -1,4 +1,4 @@
-from typing import Optional, ForwardRef
+from typing import ForwardRef, Optional
 
 from pydantic import BaseModel
 
@@ -9,7 +9,10 @@ class CategoryResponseSchema(BaseModel):
 
     class Config:
         orm_mode = True
-CategoryParentResponseSchema = ForwardRef('CategoryParentResponseSchema')
+
+
+CategoryParentResponseSchema = ForwardRef("CategoryParentResponseSchema")
+
 
 class CategoryParentResponseSchema(BaseModel):
     id: Optional[int]
@@ -21,7 +24,7 @@ class CategoryParentResponseSchema(BaseModel):
         orm_mode = True
 
 
-CategoryChildrenResponseSchema = ForwardRef('CategoryChildrenResponseSchema')
+CategoryChildrenResponseSchema = ForwardRef("CategoryChildrenResponseSchema")
 
 
 class CategoryChildrenResponseSchema(CategoryResponseSchema):

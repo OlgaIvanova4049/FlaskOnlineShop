@@ -10,4 +10,4 @@ class TokenRequestSchema(BaseModel):
     refresh_token: Optional[str]
     user_id: Optional[int]
     scope: Optional[tuple]
-    expired_at: datetime = Field(alias='exp')
+    expired_at: datetime = Field(alias="exp")

@@ -11,3 +11,21 @@ migrate:
 
 downgrade:
 	docker exec -it $(app_name) sh -c "alembic  downgrade $(version)"
+
+test:
+	python3 -m pytest --cov-config=.coveragerc --cov=app
+
+mypy:
+	python -m mypy .
+
+flake8:
+	python -m flake8
+
+black:
+	python -m black -l 79 .
+
+isort:
+	python -m isort -e -v --atomic .
+
+
+

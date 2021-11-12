@@ -1,0 +1,8 @@
+summary: "Get category list"
+description: "This is an endpoint to get category list"
+produces:
+- "application/json"
+responses:
+  200:
+    description: "Success"
+
